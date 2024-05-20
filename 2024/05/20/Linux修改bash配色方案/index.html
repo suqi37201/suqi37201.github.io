@@ -19,19 +19,19 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"blog.suqi.space","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="title: Linux修改bash配色方案top: trueLinux修改bash配色方案主要内容本文主要介绍如何在Linux中编辑bash的配色方案，配置原则是简单、清晰，最终呈现效果为：   对应的配色方案为： 1234# 一般用户用户名为绿色：PS1&#x3D;&#x27;\[\033[01;32m\]\u\[\033[01;37m\]:\[\033[01;36m\]\w\[\033[01;37m">
+    <meta name="description" content="Linux修改bash配色方案主要内容本文主要介绍如何在Linux中编辑bash的配色方案，配置原则是简单、清晰，最终呈现效果为：   对应的配色方案为： 1234# 一般用户用户名为绿色：PS1&#x3D;&#x27;\[\033[01;32m\]\u\[\033[01;37m\]:\[\033[01;36m\]\w\[\033[01;37m\]\$ \[\033[00m\]&#x27;# root用户使">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux修改bash配色方案">
 <meta property="og:url" content="https://blog.suqi.space/2024/05/20/Linux%E4%BF%AE%E6%94%B9bash%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88/index.html">
 <meta property="og:site_name" content="Blog of suqi">
-<meta property="og:description" content="title: Linux修改bash配色方案top: trueLinux修改bash配色方案主要内容本文主要介绍如何在Linux中编辑bash的配色方案，配置原则是简单、清晰，最终呈现效果为：   对应的配色方案为： 1234# 一般用户用户名为绿色：PS1&#x3D;&#x27;\[\033[01;32m\]\u\[\033[01;37m\]:\[\033[01;36m\]\w\[\033[01;37m">
+<meta property="og:description" content="Linux修改bash配色方案主要内容本文主要介绍如何在Linux中编辑bash的配色方案，配置原则是简单、清晰，最终呈现效果为：   对应的配色方案为： 1234# 一般用户用户名为绿色：PS1&#x3D;&#x27;\[\033[01;32m\]\u\[\033[01;37m\]:\[\033[01;36m\]\w\[\033[01;37m\]\$ \[\033[00m\]&#x27;# root用户使">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://blog.suqi.space/2024/05/20/Linux%E4%BF%AE%E6%94%B9bash%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88/image-20240418184726660.png">
 <meta property="og:image" content="https://blog.suqi.space/2024/05/20/Linux%E4%BF%AE%E6%94%B9bash%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88/image-20240418185034034.png">
 <meta property="og:image" content="https://blog.suqi.space/2024/05/20/Linux%E4%BF%AE%E6%94%B9bash%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88/image-20240418182805942.png">
 <meta property="og:image" content="https://blog.suqi.space/2024/05/20/Linux%E4%BF%AE%E6%94%B9bash%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88/image-20240418183853116.png">
-<meta property="article:published_time" content="2024-05-20T14:07:44.705Z">
-<meta property="article:modified_time" content="2024-05-20T14:07:44.705Z">
+<meta property="article:published_time" content="2024-05-20T14:12:30.249Z">
+<meta property="article:modified_time" content="2024-05-20T14:12:30.249Z">
 <meta property="article:author" content="suqi">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://blog.suqi.space/2024/05/20/Linux%E4%BF%AE%E6%94%B9bash%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88/image-20240418184726660.png">
@@ -116,7 +116,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#title-Linux%E4%BF%AE%E6%94%B9bash%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88top-true"><span class="nav-number">1.</span> <span class="nav-text">title: Linux修改bash配色方案top: true</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux%E4%BF%AE%E6%94%B9bash%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88"><span class="nav-number"></span> <span class="nav-text">Linux修改bash配色方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%86%85%E5%AE%B9"><span class="nav-number">1.</span> <span class="nav-text">主要内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">操作流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E7%8A%B6%E6%80%81"><span class="nav-number">2.1.</span> <span class="nav-text">初始状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A1%AE%E5%AE%9A%E9%85%8D%E8%89%B2%E6%95%88%E6%9E%9C"><span class="nav-number">2.2.</span> <span class="nav-text">确定配色效果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">2.3.</span> <span class="nav-text">修改配置文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95"><span class="nav-number">3.</span> <span class="nav-text">附录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6"><span class="nav-number">3.1.</span> <span class="nav-text">特殊字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E9%85%8D%E8%89%B2"><span class="nav-number">3.2.</span> <span class="nav-text">常用配色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88"><span class="nav-number">3.3.</span> <span class="nav-text">配色方案</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux%E4%BF%AE%E6%94%B9bash%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88"><span class="nav-number">1.</span> <span class="nav-text">Linux修改bash配色方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%86%85%E5%AE%B9"><span class="nav-number">1.1.</span> <span class="nav-text">主要内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text">操作流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E7%8A%B6%E6%80%81"><span class="nav-number">1.2.1.</span> <span class="nav-text">初始状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A1%AE%E5%AE%9A%E9%85%8D%E8%89%B2%E6%95%88%E6%9E%9C"><span class="nav-number">1.2.2.</span> <span class="nav-text">确定配色效果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.2.3.</span> <span class="nav-text">修改配置文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95"><span class="nav-number">1.3.</span> <span class="nav-text">附录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6"><span class="nav-number">1.3.1.</span> <span class="nav-text">特殊字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E9%85%8D%E8%89%B2"><span class="nav-number">1.3.2.</span> <span class="nav-text">常用配色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88"><span class="nav-number">1.3.3.</span> <span class="nav-text">配色方案</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -186,7 +186,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2024-05-20 14:07:44" itemprop="dateCreated datePublished" datetime="2024-05-20T14:07:44+00:00">2024-05-20</time>
+      <time title="Created: 2024-05-20 14:12:30" itemprop="dateCreated datePublished" datetime="2024-05-20T14:12:30+00:00">2024-05-20</time>
     </span>
 
   
@@ -198,8 +198,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><hr>
-<h2 id="title-Linux修改bash配色方案top-true"><a href="#title-Linux修改bash配色方案top-true" class="headerlink" title="title: Linux修改bash配色方案top: true"></a>title: Linux修改bash配色方案<br>top: true</h2><h1 id="Linux修改bash配色方案"><a href="#Linux修改bash配色方案" class="headerlink" title="Linux修改bash配色方案"></a>Linux修改bash配色方案</h1><h2 id="主要内容"><a href="#主要内容" class="headerlink" title="主要内容"></a>主要内容</h2><p>本文主要介绍如何在Linux中编辑bash的配色方案，配置原则是简单、清晰，最终呈现效果为：</p>
+    <div class="post-body" itemprop="articleBody"><h1 id="Linux修改bash配色方案"><a href="#Linux修改bash配色方案" class="headerlink" title="Linux修改bash配色方案"></a>Linux修改bash配色方案</h1><h2 id="主要内容"><a href="#主要内容" class="headerlink" title="主要内容"></a>主要内容</h2><p>本文主要介绍如何在Linux中编辑bash的配色方案，配置原则是简单、清晰，最终呈现效果为：</p>
 <img src="/2024/05/20/Linux%E4%BF%AE%E6%94%B9bash%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88/image-20240418184726660.png" class="" title="image-20240418184726660">
 
 <p>对应的配色方案为：</p>
