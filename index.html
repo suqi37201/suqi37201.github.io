@@ -146,6 +146,137 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.suqi.space/2024/05/20/Linux%E4%BF%AE%E6%94%B9bash%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="suqi">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog of suqi">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Blog of suqi">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/05/20/Linux%E4%BF%AE%E6%94%B9bash%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">Linux修改bash配色方案</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-05-20 14:07:44" itemprop="dateCreated datePublished" datetime="2024-05-20T14:07:44+00:00">2024-05-20</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <hr>
+<h2 id="title-Linux修改bash配色方案top-true"><a href="#title-Linux修改bash配色方案top-true" class="headerlink" title="title: Linux修改bash配色方案top: true"></a>title: Linux修改bash配色方案<br>top: true</h2><h1 id="Linux修改bash配色方案"><a href="#Linux修改bash配色方案" class="headerlink" title="Linux修改bash配色方案"></a>Linux修改bash配色方案</h1><h2 id="主要内容"><a href="#主要内容" class="headerlink" title="主要内容"></a>主要内容</h2><p>本文主要介绍如何在Linux中编辑bash的配色方案，配置原则是简单、清晰，最终呈现效果为：</p>
+<img src="/2024/05/20/Linux%E4%BF%AE%E6%94%B9bash%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88/image-20240418184726660.png" class="" title="image-20240418184726660">
+
+<p>对应的配色方案为：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">一般用户用户名为绿色：</span></span><br><span class="line">PS1=&#x27;\[\033[01;32m\]\u\[\033[01;37m\]:\[\033[01;36m\]\w\[\033[01;37m\]\$ \[\033[00m\]&#x27;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">root用户使用红色用户名作为警示：</span></span><br><span class="line">PS1=&#x27;\[\033[01;31m\]\u\[\033[01;37m\]:\[\033[01;36m\]\w\[\033[01;37m\]\$ \[\033[00m\]&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>相关环境：AWS云服务器、Ubuntu20.04系统，本地使用FinalShell终端。</p>
+<h2 id="操作流程"><a href="#操作流程" class="headerlink" title="操作流程"></a>操作流程</h2><h3 id="初始状态"><a href="#初始状态" class="headerlink" title="初始状态"></a>初始状态</h3><img src="/2024/05/20/Linux%E4%BF%AE%E6%94%B9bash%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88/image-20240418185034034.png" class="" title="image-20240418185034034">
+
+<p>配色方案为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ubuntu@ip-172-31-32-148:~$ echo $PS1</span><br><span class="line">$&#123;debian_chroot:+($debian_chroot)&#125;\u@\h:\w\$</span><br></pre></td></tr></table></figure>
+
+<h3 id="确定配色效果"><a href="#确定配色效果" class="headerlink" title="确定配色效果"></a>确定配色效果</h3><p>考虑到系统稳定性，并对比不同配色方案，我们暂不修改配置文件，而通过export PS1的值调整配色。本节操作均为临时配置，如果终端发生异常、卡顿、死机，关闭终端重新链接即可恢复（如果无法恢复，建议重启服务器、重装系统、重买）。</p>
+<p>通过export PS1 &#x3D; XXX 可以临时修改配色方案，具体为：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PS1=&#x27;\[\033[01;32m\]\u\[\033[01;37m\]:\[\033[01;36m\]\w\[\033[01;37m\]\$ \[\033[00m\]&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>解释为：</p>
+<p>“[\033[01;32m]”设定颜色为加粗绿色，“\u”表示显示用户名，共同作用为“绿色加粗用户名”；</p>
+<p>“[\033[01;37m]”设置接下来颜色为加粗白色，“ : ”表明插入一个“:”符号，共同作用为“加粗白色的冒号；</p>
+<p>“[\033[01;36m]”表明加下来颜色为加粗蓝色，“\w”表示显示路径，共同作用为“加粗蓝色路径”；</p>
+<p>“[\033[01;37m]”设置接下来颜色为加粗白色，“$”表示插入一个“$”符号；</p>
+<p>“[\033[00m]”表示接下来的颜色为普通白色，即将要输入的命令的颜色。</p>
+<p>我们可以多次修改，以确定我们所需的方案，配置相关参数见附录</p>
+<img src="/2024/05/20/Linux%E4%BF%AE%E6%94%B9bash%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88/image-20240418182805942.png" class="" title="image-20240418182805942">
+
+<h3 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h3><p><strong>打开~&#x2F;.bashrc</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br></pre></td></tr></table></figure>
+
+<p><strong>定位PS1</strong></p>
+<p>在初始状态下，PS1相关定于如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;$color_prompt&quot;</span> = yes ]; then</span><br><span class="line">    PS1=<span class="string">&#x27;$&#123;debian_chroot:+($debian_chroot)&#125;\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ &#x27;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    PS1=<span class="string">&#x27;$&#123;debian_chroot:+($debian_chroot)&#125;\u@\h:\w\$ &#x27;</span></span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<p>原生状态下包含两个默认配色，根据”color_prompt”选择配色方案，默认状态下”color_prompt”为空，即使用 PS1&#x3D;’${debian_chroot:+($debian_chroot)}\u@\h:\w$ ‘的配色方案。</p>
+<p>为了方便，我们将直接修改这个配色方案，不再修改“color_prompt”；同时为防止出错，建议将PS1复制一行并注释作为恢复备份。</p>
+<p><strong>最终修改</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;$color_prompt&quot;</span> = yes ]; then</span><br><span class="line">    PS1=<span class="string">&#x27;$&#123;debian_chroot:+($debian_chroot)&#125;\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ &#x27;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    PS1=<span class="string">&#x27;\[\033[01;32m\]\u\[\033[01;37m\]:\[\033[01;36m\]\w\[\033[01;37m\]\$ \[\033[00m\]&#x27;</span></span><br><span class="line">   # PS1=<span class="string">&#x27;$&#123;debian_chroot:+($debian_chroot)&#125;\u@\h:\w\$ &#x27;</span></span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<p><strong>加载配置文件</strong></p>
+<p>修改~&#x2F;.bashrc并保存退出后， 需要重新加载一些这个配置文件，使其生效</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
+
+<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/348416919">如何修改Bash Shell的提示符的格式和配色 - 知乎 (zhihu.com)</a></p>
+<h3 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h3><ul>
+<li><code>\u</code>: 显示当前用户</li>
+<li><code>\w</code>: 打印当前所在目录的绝对路径</li>
+<li><code>\W</code>: 打印当前所在目录</li>
+<li><code>\h</code>: 显示主机名</li>
+<li><code>\H</code>: 显示完全合格域名</li>
+<li><code>\A</code>: 显示当前时间24小时制</li>
+<li><code>\@</code>: 显示当前时间12小时制</li>
+<li><code>\$</code>: 如果有效UID为0，则显示＃（指的是root用户），否则显示$(指的是普通用户)</li>
+<li><code>\j</code>: 当前由shell管理的作业数量</li>
+</ul>
+<h3 id="常用配色"><a href="#常用配色" class="headerlink" title="常用配色"></a>常用配色</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&#x27;\e[0;30m&#x27; # 黑色</span><br><span class="line">&#x27;\e[0;31m&#x27; # 红色</span><br><span class="line">&#x27;\e[0;32m&#x27; # 绿色</span><br><span class="line">&#x27;\e[0;33m&#x27; # 黄色</span><br><span class="line">&#x27;\e[0;34m&#x27; # 蓝色</span><br><span class="line">&#x27;\e[0;35m&#x27; # 紫色</span><br><span class="line">&#x27;\e[0;36m&#x27; # 青色</span><br><span class="line">&#x27;\e[0;37m&#x27; # 白色</span><br><span class="line">&#x27;\e[1;30m&#x27; # 黑色 粗体</span><br><span class="line">&#x27;\e[1;31m&#x27; # 红色 粗体</span><br><span class="line">&#x27;\e[1;32m&#x27; # 绿色 粗体</span><br><span class="line">&#x27;\e[1;33m&#x27; # 黄色 粗体</span><br><span class="line">&#x27;\e[1;34m&#x27; # 蓝色 粗体</span><br><span class="line">&#x27;\e[1;35m&#x27; # 紫色 粗体</span><br><span class="line">&#x27;\e[1;36m&#x27; # 青色 粗体</span><br><span class="line">&#x27;\e[1;37m&#x27; # 白色 粗体</span><br><span class="line">&#x27;\e[4;30m&#x27; # 黑色 下划线</span><br><span class="line">&#x27;\e[4;31m&#x27; # 红色 下划线</span><br><span class="line">&#x27;\e[4;32m&#x27; # 绿色 下划线</span><br><span class="line">&#x27;\e[4;33m&#x27; # 黄色 下划线</span><br><span class="line">&#x27;\e[4;34m&#x27; # 蓝色 下划线</span><br><span class="line">&#x27;\e[4;35m&#x27; # 紫色 下划线</span><br><span class="line">&#x27;\e[4;36m&#x27; # 青色 下划线</span><br><span class="line">&#x27;\e[4;37m&#x27; # 白色 下划线</span><br><span class="line">&#x27;\e[40m&#x27; # 黑色 背景</span><br><span class="line">&#x27;\e[41m&#x27; # 红色 背景</span><br><span class="line">&#x27;\e[42m&#x27; # 绿色 背景</span><br><span class="line">&#x27;\e[43m&#x27; # 黄色 背景</span><br><span class="line">&#x27;\e[44m&#x27; # 蓝色 背景</span><br><span class="line">&#x27;\e[45m&#x27; # 紫色 背景</span><br><span class="line">&#x27;\e[46m&#x27; # 青色 背景</span><br><span class="line">&#x27;\e[47m&#x27; # 白色 背景</span><br><span class="line">‘\e[0m&#x27; # 重置为默认值</span><br></pre></td></tr></table></figure>
+
+<h3 id="配色方案"><a href="#配色方案" class="headerlink" title="配色方案"></a>配色方案</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">export PS1=&quot;\e[0;30m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[0;31m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[0;32m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[0;33m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[0;34m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[0;35m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[0;36m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[0;37m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line"></span><br><span class="line">export PS1=&quot;\e[1;30m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[1;31m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[1;32m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[1;33m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[1;34m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[1;35m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[1;36m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[1;37m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line"></span><br><span class="line">export PS1=&quot;\e[4;30m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[4;31m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[4;32m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[4;33m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[4;34m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[4;35m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[4;36m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[4;37m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line"></span><br><span class="line">export PS1=&quot;\e[40m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[41m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[42m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[43m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[44m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[45m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[46m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[47m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[0m[\\u@\\h \\W]\\$ \e[m &quot;</span><br></pre></td></tr></table></figure>
+
+<p>对应效果为</p>
+<img src="/2024/05/20/Linux%E4%BF%AE%E6%94%B9bash%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88/image-20240418183853116.png" class="" title="image-20240418182805942">
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://blog.suqi.space/2024/05/20/Make%20a%20transformer%20model%20by%20hand/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -175,7 +306,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2024-05-20 13:58:09" itemprop="dateCreated datePublished" datetime="2024-05-20T13:58:09+00:00">2024-05-20</time>
+      <time title="Created: 2024-05-20 14:07:44" itemprop="dateCreated datePublished" datetime="2024-05-20T14:07:44+00:00">2024-05-20</time>
     </span>
 
   
@@ -253,138 +384,7 @@
 
 
 
-<h2 id="未完待续……"><a href="#未完待续……" class="headerlink" title="未完待续……"></a>未完待续……</h2>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://blog.suqi.space/2024/05/20/Linux%E4%BF%AE%E6%94%B9bash%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="suqi">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Blog of suqi">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Blog of suqi">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/05/20/Linux%E4%BF%AE%E6%94%B9bash%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">Linux修改bash配色方案</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-05-20 13:58:09" itemprop="dateCreated datePublished" datetime="2024-05-20T13:58:09+00:00">2024-05-20</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <hr>
-<h2 id="title-Linux修改bash配色方案top-true"><a href="#title-Linux修改bash配色方案top-true" class="headerlink" title="title: Linux修改bash配色方案top: true"></a>title: Linux修改bash配色方案<br>top: true</h2><h1 id="Linux修改bash配色方案"><a href="#Linux修改bash配色方案" class="headerlink" title="Linux修改bash配色方案"></a>Linux修改bash配色方案</h1><h2 id="主要内容"><a href="#主要内容" class="headerlink" title="主要内容"></a>主要内容</h2><p>本文主要介绍如何在Linux中编辑bash的配色方案，配置原则是简单、清晰，最终呈现效果为：</p>
-<img src="/2024/05/20/Linux%E4%BF%AE%E6%94%B9bash%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88/image-20240418184726660.png" class="" title="image-20240418184726660">
-
-<p>对应的配色方案为：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">一般用户用户名为绿色：</span></span><br><span class="line">PS1=&#x27;\[\033[01;32m\]\u\[\033[01;37m\]:\[\033[01;36m\]\w\[\033[01;37m\]\$ \[\033[00m\]&#x27;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">root用户使用红色用户名作为警示：</span></span><br><span class="line">PS1=&#x27;\[\033[01;31m\]\u\[\033[01;37m\]:\[\033[01;36m\]\w\[\033[01;37m\]\$ \[\033[00m\]&#x27;</span><br></pre></td></tr></table></figure>
-
-<p>相关环境：AWS云服务器、Ubuntu20.04系统，本地使用FinalShell终端。</p>
-<h2 id="操作流程"><a href="#操作流程" class="headerlink" title="操作流程"></a>操作流程</h2><h3 id="初始状态"><a href="#初始状态" class="headerlink" title="初始状态"></a>初始状态</h3><img src="/2024/05/20/Linux%E4%BF%AE%E6%94%B9bash%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88/image-20240418185034034.png" class="" title="image-20240418185034034">
-
-<p>配色方案为：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ubuntu@ip-172-31-32-148:~$ echo $PS1</span><br><span class="line">$&#123;debian_chroot:+($debian_chroot)&#125;\u@\h:\w\$</span><br></pre></td></tr></table></figure>
-
-<h3 id="确定配色效果"><a href="#确定配色效果" class="headerlink" title="确定配色效果"></a>确定配色效果</h3><p>考虑到系统稳定性，并对比不同配色方案，我们暂不修改配置文件，而通过export PS1的值调整配色。本节操作均为临时配置，如果终端发生异常、卡顿、死机，关闭终端重新链接即可恢复（如果无法恢复，建议重启服务器、重装系统、重买）。</p>
-<p>通过export PS1 &#x3D; XXX 可以临时修改配色方案，具体为：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PS1=&#x27;\[\033[01;32m\]\u\[\033[01;37m\]:\[\033[01;36m\]\w\[\033[01;37m\]\$ \[\033[00m\]&#x27;</span><br></pre></td></tr></table></figure>
-
-<p>解释为：</p>
-<p>“[\033[01;32m]”设定颜色为加粗绿色，“\u”表示显示用户名，共同作用为“绿色加粗用户名”；</p>
-<p>“[\033[01;37m]”设置接下来颜色为加粗白色，“ : ”表明插入一个“:”符号，共同作用为“加粗白色的冒号；</p>
-<p>“[\033[01;36m]”表明加下来颜色为加粗蓝色，“\w”表示显示路径，共同作用为“加粗蓝色路径”；</p>
-<p>“[\033[01;37m]”设置接下来颜色为加粗白色，“$”表示插入一个“$”符号；</p>
-<p>“[\033[00m]”表示接下来的颜色为普通白色，即将要输入的命令的颜色。</p>
-<p>我们可以多次修改，以确定我们所需的方案，配置相关参数见附录</p>
-<img src="/2024/05/20/Linux%E4%BF%AE%E6%94%B9bash%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88/image-20240418182805942.png" class="" title="image-20240418182805942">
-
-<h3 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h3><p><strong>打开~&#x2F;.bashrc</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br></pre></td></tr></table></figure>
-
-<p><strong>定位PS1</strong></p>
-<p>在初始状态下，PS1相关定于如下：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;$color_prompt&quot;</span> = yes ]; then</span><br><span class="line">    PS1=<span class="string">&#x27;$&#123;debian_chroot:+($debian_chroot)&#125;\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ &#x27;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    PS1=<span class="string">&#x27;$&#123;debian_chroot:+($debian_chroot)&#125;\u@\h:\w\$ &#x27;</span></span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
-
-<p>原生状态下包含两个默认配色，根据”color_prompt”选择配色方案，默认状态下”color_prompt”为空，即使用 PS1&#x3D;’${debian_chroot:+($debian_chroot)}\u@\h:\w$ ‘的配色方案。</p>
-<p>为了方便，我们将直接修改这个配色方案，不再修改“color_prompt”；同时为防止出错，建议将PS1复制一行并注释作为恢复备份。</p>
-<p><strong>最终修改</strong></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;$color_prompt&quot;</span> = yes ]; then</span><br><span class="line">    PS1=<span class="string">&#x27;$&#123;debian_chroot:+($debian_chroot)&#125;\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ &#x27;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    PS1=<span class="string">&#x27;\[\033[01;32m\]\u\[\033[01;37m\]:\[\033[01;36m\]\w\[\033[01;37m\]\$ \[\033[00m\]&#x27;</span></span><br><span class="line">   # PS1=<span class="string">&#x27;$&#123;debian_chroot:+($debian_chroot)&#125;\u@\h:\w\$ &#x27;</span></span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
-
-<p><strong>加载配置文件</strong></p>
-<p>修改~&#x2F;.bashrc并保存退出后， 需要重新加载一些这个配置文件，使其生效</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
-
-<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/348416919">如何修改Bash Shell的提示符的格式和配色 - 知乎 (zhihu.com)</a></p>
-<h3 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h3><ul>
-<li><code>\u</code>: 显示当前用户</li>
-<li><code>\w</code>: 打印当前所在目录的绝对路径</li>
-<li><code>\W</code>: 打印当前所在目录</li>
-<li><code>\h</code>: 显示主机名</li>
-<li><code>\H</code>: 显示完全合格域名</li>
-<li><code>\A</code>: 显示当前时间24小时制</li>
-<li><code>\@</code>: 显示当前时间12小时制</li>
-<li><code>\$</code>: 如果有效UID为0，则显示＃（指的是root用户），否则显示$(指的是普通用户)</li>
-<li><code>\j</code>: 当前由shell管理的作业数量</li>
-</ul>
-<h3 id="常用配色"><a href="#常用配色" class="headerlink" title="常用配色"></a>常用配色</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&#x27;\e[0;30m&#x27; # 黑色</span><br><span class="line">&#x27;\e[0;31m&#x27; # 红色</span><br><span class="line">&#x27;\e[0;32m&#x27; # 绿色</span><br><span class="line">&#x27;\e[0;33m&#x27; # 黄色</span><br><span class="line">&#x27;\e[0;34m&#x27; # 蓝色</span><br><span class="line">&#x27;\e[0;35m&#x27; # 紫色</span><br><span class="line">&#x27;\e[0;36m&#x27; # 青色</span><br><span class="line">&#x27;\e[0;37m&#x27; # 白色</span><br><span class="line">&#x27;\e[1;30m&#x27; # 黑色 粗体</span><br><span class="line">&#x27;\e[1;31m&#x27; # 红色 粗体</span><br><span class="line">&#x27;\e[1;32m&#x27; # 绿色 粗体</span><br><span class="line">&#x27;\e[1;33m&#x27; # 黄色 粗体</span><br><span class="line">&#x27;\e[1;34m&#x27; # 蓝色 粗体</span><br><span class="line">&#x27;\e[1;35m&#x27; # 紫色 粗体</span><br><span class="line">&#x27;\e[1;36m&#x27; # 青色 粗体</span><br><span class="line">&#x27;\e[1;37m&#x27; # 白色 粗体</span><br><span class="line">&#x27;\e[4;30m&#x27; # 黑色 下划线</span><br><span class="line">&#x27;\e[4;31m&#x27; # 红色 下划线</span><br><span class="line">&#x27;\e[4;32m&#x27; # 绿色 下划线</span><br><span class="line">&#x27;\e[4;33m&#x27; # 黄色 下划线</span><br><span class="line">&#x27;\e[4;34m&#x27; # 蓝色 下划线</span><br><span class="line">&#x27;\e[4;35m&#x27; # 紫色 下划线</span><br><span class="line">&#x27;\e[4;36m&#x27; # 青色 下划线</span><br><span class="line">&#x27;\e[4;37m&#x27; # 白色 下划线</span><br><span class="line">&#x27;\e[40m&#x27; # 黑色 背景</span><br><span class="line">&#x27;\e[41m&#x27; # 红色 背景</span><br><span class="line">&#x27;\e[42m&#x27; # 绿色 背景</span><br><span class="line">&#x27;\e[43m&#x27; # 黄色 背景</span><br><span class="line">&#x27;\e[44m&#x27; # 蓝色 背景</span><br><span class="line">&#x27;\e[45m&#x27; # 紫色 背景</span><br><span class="line">&#x27;\e[46m&#x27; # 青色 背景</span><br><span class="line">&#x27;\e[47m&#x27; # 白色 背景</span><br><span class="line">‘\e[0m&#x27; # 重置为默认值</span><br></pre></td></tr></table></figure>
-
-<h3 id="配色方案"><a href="#配色方案" class="headerlink" title="配色方案"></a>配色方案</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">export PS1=&quot;\e[0;30m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[0;31m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[0;32m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[0;33m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[0;34m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[0;35m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[0;36m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[0;37m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line"></span><br><span class="line">export PS1=&quot;\e[1;30m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[1;31m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[1;32m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[1;33m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[1;34m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[1;35m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[1;36m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[1;37m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line"></span><br><span class="line">export PS1=&quot;\e[4;30m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[4;31m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[4;32m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[4;33m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[4;34m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[4;35m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[4;36m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[4;37m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line"></span><br><span class="line">export PS1=&quot;\e[40m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[41m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[42m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[43m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[44m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[45m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[46m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[47m[\\u@\\h \\W]\\$ \e[m &quot;</span><br><span class="line">export PS1=&quot;\e[0m[\\u@\\h \\W]\\$ \e[m &quot;</span><br></pre></td></tr></table></figure>
-
-<p>对应效果为</p>
-<img src="/2024/05/20/Linux%E4%BF%AE%E6%94%B9bash%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88/image-20240418183853116.png" class="" title="image-20240418182805942">
-
-
-
-
+<h2 id="未完待续…"><a href="#未完待续…" class="headerlink" title="未完待续…"></a>未完待续…</h2>
       
     </div>
 
