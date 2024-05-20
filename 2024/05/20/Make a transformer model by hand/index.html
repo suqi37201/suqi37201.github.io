@@ -28,8 +28,8 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="c:/Users/suqi/OneDrive/Pictures/TyporaPicture/image-20240219221931261-1713934610641-1.png">
 <meta property="og:image" content="https://blog.suqi.space/2024/05/20/Make%20a%20transformer%20model%20by%20hand/image-20240219224615783-1713936085221-3.png">
-<meta property="article:published_time" content="2024-05-20T17:13:18.462Z">
-<meta property="article:modified_time" content="2024-05-20T17:13:18.462Z">
+<meta property="article:published_time" content="2024-05-20T17:44:43.863Z">
+<meta property="article:modified_time" content="2024-05-20T17:44:43.863Z">
 <meta property="article:author" content="suqi">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="c:/Users/suqi/OneDrive/Pictures/TyporaPicture/image-20240219221931261-1713934610641-1.png">
@@ -184,7 +184,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2024-05-20 17:13:18" itemprop="dateCreated datePublished" datetime="2024-05-20T17:13:18+00:00">2024-05-20</time>
+      <time title="Created: 2024-05-20 17:44:43" itemprop="dateCreated datePublished" datetime="2024-05-20T17:44:43+00:00">2024-05-20</time>
     </span>
 
   
@@ -205,14 +205,14 @@
 <li>对于输入序列“aabaabaab”，预测下一个字符是 “a” or “b”。</li>
 </ul>
 <h3 id="分词器设置"><a href="#分词器设置" class="headerlink" title="分词器设置"></a>分词器设置</h3><p>因为我们的模型使用了“a”和“b”两个字符，所以我们只需要设计一个简单的分词器即可：</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">CHARS <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"a"</span><span class="token punctuation">,</span> <span class="token string">"b"</span><span class="token punctuation">]</span>
+<pre class="language-python" data-language="python"><code class="language-python">CHARS <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"a"</span><span class="token punctuation">,</span> <span class="token string">"b"</span><span class="token punctuation">]</span>
 <span class="token keyword">def</span> <span class="token function">tokenize</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">return</span> <span class="token punctuation">[</span>CHARS<span class="token punctuation">.</span>index<span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token keyword">for</span> c <span class="token keyword">in</span> s<span class="token punctuation">]</span>
 <span class="token keyword">def</span> <span class="token function">untok</span><span class="token punctuation">(</span>tok<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">return</span> CHARS<span class="token punctuation">[</span>tok<span class="token punctuation">]</span>
 
 <span class="token comment"># examples:</span>
 tokenize<span class="token punctuation">(</span><span class="token string">"aabaa"</span><span class="token punctuation">)</span> <span class="token comment"># => [0, 0, 1, 0, 0]</span>
 untok<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token comment"># => "a"</span>
-untok<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token comment"># => "b"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+untok<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token comment"># => "b"</span></code></pre>
 
 <h3 id="模型架构"><a href="#模型架构" class="headerlink" title="模型架构"></a>模型架构</h3><p>我们选择了类GPT-2的模型架构，具体而言，如下图所示，接下来我将逐一实现这个模型中的每一部分。</p>
 <img src="C:/Users/suqi/OneDrive/Pictures/TyporaPicture/image-20240219221931261-1713934610641-1.png" alt="image-20240219221931261" style="zoom: 50%;" />
@@ -226,15 +226,15 @@ untok<span class="token punctuation">(</span><span class="token number">1</span>
 <p>Context length是模型一次看到的最大Token数量。理论上，这个任务只需要前面的 2 个Token，但我们使用 5 个Token来让它变得更困难一些，因此我们还需要忽略不相关的Token。</p>
 <p>Vocabulary size是模型将看到的不同标记的数量。在真实模型中，我们需要在泛化能力（generalization）、要学习的不同token的数量（number of distinct tokens to learn）、上下文长度（context length usage）之间权衡。但是，我们的任务要简单得多，因此在我们的模型中，我们只需要两个标记：( <code>a</code>)<code>0</code>和<code>b</code>( <code>1</code>) 。</p>
 <p>Embedding size是模型将为每个token&#x2F;position学习的向量的大小，并且也将在内部使用。我相当随意地选择了 8 个，最终正好符合所需的大小。</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">N_CTX <span class="token operator">=</span> <span class="token number">5</span>
+<pre class="language-python" data-language="python"><code class="language-python">N_CTX <span class="token operator">=</span> <span class="token number">5</span>
 N_VOCAB <span class="token operator">=</span> <span class="token number">2</span>
-N_EMBED <span class="token operator">=</span> <span class="token number">8</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+N_EMBED <span class="token operator">=</span> <span class="token number">8</span></code></pre>
 
 <h2 id="embedding权重设计"><a href="#embedding权重设计" class="headerlink" title="embedding权重设计"></a>embedding权重设计</h2><p>分词器tokenizer将输入序列<code>aabaabaab</code>转化为Token<code>001001001</code>作为模型输入，我们需要对其进行编码（embedding），也就是说，我们需要将输入为<code>seq_len </code>的一维矩阵转换为<code>seq_len x embedding_size</code>的二维矩阵.  </p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">gpt</span><span class="token punctuation">(</span>inputs<span class="token punctuation">,</span> wte<span class="token punctuation">,</span> wpe<span class="token punctuation">,</span> blocks<span class="token punctuation">)</span><span class="token punctuation">:</span>  <span class="token comment"># [n_seq] -> [n_seq, n_vocab]</span>
+<pre class="language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">gpt</span><span class="token punctuation">(</span>inputs<span class="token punctuation">,</span> wte<span class="token punctuation">,</span> wpe<span class="token punctuation">,</span> blocks<span class="token punctuation">)</span><span class="token punctuation">:</span>  <span class="token comment"># [n_seq] -> [n_seq, n_vocab]</span>
   <span class="token comment"># token + positional embeddings</span>
   x <span class="token operator">=</span> wte<span class="token punctuation">[</span>inputs<span class="token punctuation">]</span> <span class="token operator">+</span> wpe<span class="token punctuation">[</span><span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>inputs<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">]</span>  <span class="token comment"># [n_seq] -> [n_seq, n_embd]</span>
-  <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+  <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span></code></pre>
 
 <p>我们要做的第一件事是设计<code>wte</code>（weights for token embeddings）和<code>wpe</code> (weights for position embeddings)。此处我们使用1-hot策略，即对于每个不同的位置使用独立的编码1。在本文中,  我们指定相关编码策略为:</p>
 <ul>
@@ -244,7 +244,7 @@ N_EMBED <span class="token operator">=</span> <span class="token number">8</span
 </ul>
 <p>也就是说,  如果第3个位置上出现字符”a”,  相关编码为: <code>00100100</code> 其中<code>00100</code>为position embedding,  后面的<code>10</code>为token embedding.</p>
 <p>基于此策略,相关模型权重定义如下:</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">MODEL <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+<pre class="language-python" data-language="python"><code class="language-python">MODEL <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
   <span class="token string">"wte"</span><span class="token punctuation">:</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span>
     <span class="token comment"># one-hot token embeddings</span>
     <span class="token punctuation">[</span>
@@ -263,7 +263,7 @@ N_EMBED <span class="token operator">=</span> <span class="token number">8</span
     <span class="token punctuation">]</span>
   <span class="token punctuation">)</span><span class="token punctuation">,</span>
   <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">:</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token punctuation">&#125;</span></code></pre>
 
 <p>如果我们使用这个策略编码这个序列<code>&quot;aabaa&quot;</code>，我们可以得到下面这个embedding 矩阵，矩阵的大小为 <code>5 x 8</code> (<code>seq_len x embedding_size</code>)。</p>
 <img src="/2024/05/20/Make%20a%20transformer%20model%20by%20hand/image-20240219224615783-1713936085221-3.png" class="" title="image-20240219224615783">
@@ -279,9 +279,9 @@ N_EMBED <span class="token operator">=</span> <span class="token number">8</span
 <p>(Most transformers nowadays have multiple parallel heads per transformer block (“multi-head attention”), which I believe is where the “attention head” terminology comes from, but we’ll only use one for simplicity. For our purposes, “attention head” &#x3D; attention layer）</p>
 <p>使用<code>@</code>表示矩阵乘积操作, 使用python代码实现注意力机制如下:</p>
 <p>注意力头（注意力层）的主要部分是attention的实现，在我们的代码中定义如下：</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># [n_q, d_k], [n_k, d_k], [n_k, d_v], [n_q, n_k] -> [n_q, d_v]</span>
+<pre class="language-python" data-language="python"><code class="language-python"><span class="token comment"># [n_q, d_k], [n_k, d_k], [n_k, d_v], [n_q, n_k] -> [n_q, d_v]</span>
 <span class="token keyword">def</span> <span class="token function">attention</span><span class="token punctuation">(</span>q<span class="token punctuation">,</span> k<span class="token punctuation">,</span> v<span class="token punctuation">,</span> mask<span class="token punctuation">)</span><span class="token punctuation">:</span>
-  <span class="token keyword">return</span> softmax<span class="token punctuation">(</span>q @ k<span class="token punctuation">.</span>T <span class="token operator">/</span> np<span class="token punctuation">.</span>sqrt<span class="token punctuation">(</span>q<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">+</span> mask<span class="token punctuation">)</span> @ v<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+  <span class="token keyword">return</span> softmax<span class="token punctuation">(</span>q @ k<span class="token punctuation">.</span>T <span class="token operator">/</span> np<span class="token punctuation">.</span>sqrt<span class="token punctuation">(</span>q<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">+</span> mask<span class="token punctuation">)</span> @ v</code></pre>
 
 <p>部分参数解释如下：</p>
 <ul>
@@ -291,7 +291,7 @@ N_EMBED <span class="token operator">=</span> <span class="token number">8</span
 <li>and <code>mask</code>, 一个非学习参数用来防止模型在未来的训练中不会作弊，这个在之后会有更多的意义。</li>
 </ul>
 <p>关于attention 机制的具体解释此处不再多做讨论.  在我们的模型中，attention的权重在 <code>c_attn</code>中定义：</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">Lg <span class="token operator">=</span> <span class="token number">1024</span> <span class="token comment"># Large</span>
+<pre class="language-python" data-language="python"><code class="language-python">Lg <span class="token operator">=</span> <span class="token number">1024</span> <span class="token comment"># Large</span>
 
 MODEL <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
   <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">:</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span>
@@ -336,7 +336,7 @@ MODEL <span class="token operator">=</span> <span class="token punctuation">&#12
       <span class="token punctuation">&#125;</span>
     <span class="token punctuation">&#125;</span>
   <span class="token punctuation">]</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token punctuation">&#125;</span></code></pre>
 
 
 

@@ -371,12 +371,13 @@ td {
  * @author Tim  Shedor
  */
 
+
 code[class*="language-"],
 pre[class*="language-"] {
 	color: black;
 	background: none;
 	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-	font-size: 1em;
+	font-size: 0.95em;
 	text-align: left;
 	white-space: pre;
 	word-spacing: normal;
@@ -392,6 +393,9 @@ pre[class*="language-"] {
 	-moz-hyphens: none;
 	-ms-hyphens: none;
 	hyphens: none;
+	
+	border-radius: 0.3em;
+	transition: border-radius 0.3s ease; /* 使用过渡效果 */
 }
 
 /* Code blocks */
@@ -400,18 +404,24 @@ pre[class*="language-"] {
 	margin: .5em 0;
 	overflow: visible;
 	padding: 1px;
+	
+	/* 新增样式：圆角过渡 */
+	border-radius: 0.3em;
+	transition: border-radius 0.3s ease; /* 使用过渡效果 */	
 }
 
 pre[class*="language-"] > code {
 	position: relative;
-	z-index: 1;
-	border-left: 10px solid #358ccb;
-	box-shadow: -1px 0px 0px 0px #358ccb, 0px 0px 0px 1px #dfdfdf;
+	/* z-index: 1; */
+
+	box-shadow: -1px 0px 0px 0px #dfdfdf, 0px 0px 0px 1px #dfdfdf;
 	background-color: #fdfdfd;
 	background-image: linear-gradient(transparent 50%, rgba(69, 142, 209, 0.04) 50%);
 	background-size: 3em 3em;
 	background-origin: content-box;
 	background-attachment: local;
+
+	transition: border-radius 0.3s ease; 
 }
 
 code[class*="language-"] {
@@ -420,6 +430,8 @@ code[class*="language-"] {
 	padding: 0 1em;
 	display: block;
 	overflow: auto;
+	/* 新增样式：圆角过渡 */
+	transition: border-radius 0.3s ease; /* 使用过渡效果 */	
 }
 
 /* Margin bottom to accommodate shadow */
@@ -430,6 +442,8 @@ pre[class*="language-"] {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	margin-bottom: 1em;
+
+	transition: border-radius 0.3s ease; 
 }
 
 /* Inline code */
@@ -442,7 +456,7 @@ pre[class*="language-"] {
 	display: inline;
 	white-space: normal;
 }
-
+/* 
 pre[class*="language-"]:before,
 pre[class*="language-"]:after {
 	content: '';
@@ -469,7 +483,7 @@ pre[class*="language-"]:after {
 	-ms-transform: rotate(2deg);
 	-o-transform: rotate(2deg);
 	transform: rotate(2deg);
-}
+} */
 
 .token.comment,
 .token.block-comment,
@@ -564,11 +578,11 @@ pre[class*="language-"].line-numbers.line-numbers {
 }
 
 pre[class*="language-"].line-numbers.line-numbers code {
-	padding-left: 3.8em;
+	padding-left: 2.9em;
 }
 
 pre[class*="language-"].line-numbers.line-numbers .line-numbers-rows {
-	left: 0;
+	left: -0.6em;
 }
 
 /* Plugin styles: Line Highlight */
