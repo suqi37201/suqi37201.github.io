@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.suqi.space","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="通过手动指定权重, 使用python制作一个简单的transformer模型.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Make a transformer model by hand">
+<meta property="og:url" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/index.html">
+<meta property="og:site_name" content="Blog of suqi">
+<meta property="og:description" content="通过手动指定权重, 使用python制作一个简单的transformer模型.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="c:/Users/suqi/OneDrive/Pictures/TyporaPicture/image-20240219221931261-1713934610641-1.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240219224615783-1713936085221-3.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240219231141263-1716293266904-1.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240219231744210-1716293290028-3.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240219232735352-1716293427827-5.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220145341709-1716293647711-12-1716337883987-1.png">
+<meta property="og:image" content="c:/Users/suqi/OneDrive/Pictures/TyporaPicture/image-20240219233709078-1716293609027-8.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220115620842-1716293609027-7.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220120530131-1716293647711-11.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220150037365-1716293647711-13.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220151650146-1716293813476-18.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220151828038-1716293813476-17.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220153450246-1716293871849-21.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220161019067-1716340090898-4.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240224162758287-1716340090898-3-1716340879666-11.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240224163611184-1716340090898-6.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240224163947252-1716340090898-5.png">
+<meta property="article:published_time" content="2024-05-22T02:04:15.694Z">
+<meta property="article:modified_time" content="2024-05-22T02:04:15.694Z">
+<meta property="article:author" content="suqi">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:/Users/suqi/OneDrive/Pictures/TyporaPicture/image-20240219221931261-1713934610641-1.png">
+
+
+<link rel="canonical" href="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/","path":"2024/05/22/Make a transformer model by hand/","title":"Make a transformer model by hand"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Make a transformer model by hand | Blog of suqi</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Blog of suqi</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Make-a-transformer-model-by-hand"><span class="nav-number">1.</span> <span class="nav-text">Make a transformer model by hand</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Abstract"><span class="nav-number">1.1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Model-Overview"><span class="nav-number">1.2.</span> <span class="nav-text">Model Overview</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Picking-a-task"><span class="nav-number">1.2.1.</span> <span class="nav-text">Picking a task</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tokenization-scheme"><span class="nav-number">1.2.2.</span> <span class="nav-text">Tokenization scheme</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model-Architecture"><span class="nav-number">1.2.3.</span> <span class="nav-text">Model Architecture</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model-Parameter"><span class="nav-number">1.2.4.</span> <span class="nav-text">Model Parameter</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Embedding-block"><span class="nav-number">1.3.</span> <span class="nav-text">Embedding block</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Transformer-block"><span class="nav-number">1.4.</span> <span class="nav-text">Transformer block</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Attention-Layer"><span class="nav-number">1.4.1.</span> <span class="nav-text">Attention Layer</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#q-k-v-matrix"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">q&#x2F;k&#x2F;v matrix</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#q-k-T"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">q @ k.T</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#q-k-T-mask"><span class="nav-number">1.4.1.3.</span> <span class="nav-text">q @ k.T + mask</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#softmax"><span class="nav-number">1.4.1.4.</span> <span class="nav-text">softmax</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#softmax-q-k-T-mask"><span class="nav-number">1.4.1.5.</span> <span class="nav-text">softmax(q @ k.T + mask)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#softmax-q-k-T-mask-v"><span class="nav-number">1.4.1.6.</span> <span class="nav-text">softmax(q @ k.T + mask) @ v</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Summary"><span class="nav-number">1.4.1.7.</span> <span class="nav-text">Summary</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Projecting-back-to-embedding-space"><span class="nav-number">1.4.2.</span> <span class="nav-text">Projecting back to embedding space</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Residual-connection"><span class="nav-number">1.4.3.</span> <span class="nav-text">Residual connection</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Projecting-back-to-vocabulary-space"><span class="nav-number">1.5.</span> <span class="nav-text">Projecting back to vocabulary space</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Completed-code"><span class="nav-number">1.6.</span> <span class="nav-text">Completed code</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Others"><span class="nav-number">1.7.</span> <span class="nav-text">Others</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">suqi</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="suqi">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog of suqi">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Make a transformer model by hand | Blog of suqi">
+      <meta itemprop="description" content="通过手动指定权重, 使用python制作一个简单的transformer模型.">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Make a transformer model by hand
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-05-22 02:04:15" itemprop="dateCreated datePublished" datetime="2024-05-22T02:04:15+00:00">2024-05-22</time>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">通过手动指定权重, 使用python制作一个简单的transformer模型.</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Make-a-transformer-model-by-hand"><a href="#Make-a-transformer-model-by-hand" class="headerlink" title="Make a transformer model by hand"></a>Make a transformer model by hand</h1><p>Author:  <a href="suqi37201@gmail.com">suqi</a> </p>
+<p>Reference: <a target="_blank" rel="noopener" href="https://vgel.me/posts/handmade-transformer/">I made a transformer by hand (no training!) (vgel.me)</a></p>
+<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>本文介绍了如何制作一个Transformer 模型，无需训练，无需显卡</p>
+<h2 id="Model-Overview"><a href="#Model-Overview" class="headerlink" title="Model Overview"></a>Model Overview</h2><h3 id="Picking-a-task"><a href="#Picking-a-task" class="headerlink" title="Picking a task"></a>Picking a task</h3><p>因为我们计划通过手动设计权重来完成我们的模型，所以我们选择一个较为简单的模型任务，但也不能过于简单，如预测“abababab”序列的下一个字符。综合考虑，我们选定的模型任务为：</p>
+<ul>
+<li>对于输入序列“aabaabaab”，预测下一个字符是 “a” or “b”。</li>
+</ul>
+<h3 id="Tokenization-scheme"><a href="#Tokenization-scheme" class="headerlink" title="Tokenization scheme"></a>Tokenization scheme</h3><p>因为我们的模型使用了“a”和“b”两个字符，所以我们只需要设计一个简单的分词器即可：</p>
+<pre class="language-python" data-language="python"><code class="language-python">CHARS <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"a"</span><span class="token punctuation">,</span> <span class="token string">"b"</span><span class="token punctuation">]</span>
+<span class="token keyword">def</span> <span class="token function">tokenize</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">return</span> <span class="token punctuation">[</span>CHARS<span class="token punctuation">.</span>index<span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token keyword">for</span> c <span class="token keyword">in</span> s<span class="token punctuation">]</span>
+<span class="token keyword">def</span> <span class="token function">untok</span><span class="token punctuation">(</span>tok<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">return</span> CHARS<span class="token punctuation">[</span>tok<span class="token punctuation">]</span>
+
+<span class="token comment"># examples:</span>
+tokenize<span class="token punctuation">(</span><span class="token string">"aabaa"</span><span class="token punctuation">)</span> <span class="token comment"># => [0, 0, 1, 0, 0]</span>
+untok<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token comment"># => "a"</span>
+untok<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token comment"># => "b"</span></code></pre>
+
+<h3 id="Model-Architecture"><a href="#Model-Architecture" class="headerlink" title="Model Architecture"></a>Model Architecture</h3><p>我们选择了类GPT-2的模型架构，具体而言，如下图所示，接下来我将逐一实现这个模型中的每一部分。</p>
+<img src="C:/Users/suqi/OneDrive/Pictures/TyporaPicture/image-20240219221931261-1713934610641-1.png" alt="image-20240219221931261" style="zoom: 50%;" />
+
+<h3 id="Model-Parameter"><a href="#Model-Parameter" class="headerlink" title="Model Parameter"></a>Model Parameter</h3><p>我们需要确定三个模型参数：</p>
+<ul>
+<li>Context length</li>
+<li>Vocabulary size</li>
+<li>Embedding size</li>
+</ul>
+<p>Context length是模型一次看到的最大Token数量。理论上，这个任务只需要前面的 2 个Token，但我们使用 5 个Token来让它变得更困难一些，因此我们还需要忽略不相关的Token。</p>
+<p>Vocabulary size是模型将看到的不同标记的数量。在真实模型中，我们需要在泛化能力（generalization）、要学习的不同token的数量（number of distinct tokens to learn）、上下文长度（context length usage）之间权衡。但是，我们的任务要简单得多，因此在我们的模型中，我们只需要两个标记：( <code>a</code>)<code>0</code>和<code>b</code>( <code>1</code>) 。</p>
+<p>Embedding size是模型将为每个token&#x2F;position学习的向量的大小，并且也将在内部使用。我相当随意地选择了 8 个，最终正好符合所需的大小。</p>
+<pre class="language-python" data-language="python"><code class="language-python">N_CTX <span class="token operator">=</span> <span class="token number">5</span>
+N_VOCAB <span class="token operator">=</span> <span class="token number">2</span>
+N_EMBED <span class="token operator">=</span> <span class="token number">8</span></code></pre>
+
+<h2 id="Embedding-block"><a href="#Embedding-block" class="headerlink" title="Embedding block"></a>Embedding block</h2><p>分词器tokenizer将输入序列<code>aabaabaab</code>转化为Token<code>001001001</code>作为模型输入，我们需要对其进行编码（embedding），也就是说，我们需要将输入为<code>seq_len </code>的一维矩阵转换为<code>seq_len x embedding_size</code>的二维矩阵.  </p>
+<pre class="language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">gpt</span><span class="token punctuation">(</span>inputs<span class="token punctuation">,</span> wte<span class="token punctuation">,</span> wpe<span class="token punctuation">,</span> blocks<span class="token punctuation">)</span><span class="token punctuation">:</span>  <span class="token comment"># [n_seq] -> [n_seq, n_vocab]</span>
+  <span class="token comment"># token + positional embeddings</span>
+  x <span class="token operator">=</span> wte<span class="token punctuation">[</span>inputs<span class="token punctuation">]</span> <span class="token operator">+</span> wpe<span class="token punctuation">[</span><span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>inputs<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">]</span>  <span class="token comment"># [n_seq] -> [n_seq, n_embd]</span>
+  <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span></code></pre>
+
+<p>我们要做的第一件事是设计<code>wte</code>（weights for token embeddings）和<code>wpe</code> (weights for position embeddings)。此处我们使用1-hot策略，即对于每个不同的位置使用独立的编码1。在本文中,  我们指定相关编码策略为:</p>
+<ul>
+<li>使用前五个embedding 元素来表示 position embedding。位置0表示为：<code>[1, 0, 0, 0, 0]</code>，位置1表示为：<code>[0, 1, 0, 0, 0]</code>，直到位置4表示为：<code>[0, 0, 0, 0, 1]</code>。</li>
+<li>使用接下来两个embedding 元素表示token embedding，token <code>a</code> 表示为 <code>[1, 0]</code>,  token <code>b</code> 表示为<code>[0, 1]</code>。</li>
+<li>最后一个位置先暂时忽略,  默认其为0.</li>
+</ul>
+<p>也就是说,  如果第3个位置上出现字符”a”,  相关编码为: <code>00100100</code> 其中<code>00100</code>为position embedding,  后面的<code>10</code>为token embedding.</p>
+<p>基于此策略,相关模型权重定义如下:</p>
+<pre class="language-python" data-language="python"><code class="language-python">MODEL <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+  <span class="token string">"wte"</span><span class="token punctuation">:</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span>
+    <span class="token comment"># one-hot token embeddings</span>
+    <span class="token punctuation">[</span>
+      <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># token `a` (id 0)</span>
+      <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># token `b` (id 1)</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token string">"wpe"</span><span class="token punctuation">:</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span>
+    <span class="token comment"># one-hot position embeddings</span>
+    <span class="token punctuation">[</span>
+      <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># position 0</span>
+      <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># position 1</span>
+      <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># position 2</span>
+      <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># position 3</span>
+      <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># position 4</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">:</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+<p>如果我们使用这个策略编码这个序列<code>&quot;aabaa&quot;</code>，我们可以得到下面这个embedding 矩阵，矩阵的大小为 <code>5 x 8</code> (<code>seq_len x embedding_size</code>)。</p>
+<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240219224615783-1713936085221-3.png" class="" title="image-20240219224615783">
+
+<p>接下来我们的模型都基于这个embedding 工作，直到最后投射回vocabulary-space。</p>
+<p>注意，第七个embedding的第七个元素并没有使用，这将作为transformer模型中的暂存空间。</p>
+<h2 id="Transformer-block"><a href="#Transformer-block" class="headerlink" title="Transformer block"></a>Transformer block</h2><p>目前主流模型都具有多个transformer块, 我们的任务比较简单, 所以我们只使用一个。我们的模型包含两部分：</p>
+<ul>
+<li>一个注意力头（attention head）.</li>
+<li>一个线性层（将注意力结果矩阵处理为网络常用的 <code>seq_len x embedding_size</code>大小）。</li>
+</ul>
+<h3 id="Attention-Layer"><a href="#Attention-Layer" class="headerlink" title="Attention Layer"></a>Attention Layer</h3><p>在上一节中， 我们得到了embedding 矩阵，embedding 矩阵将作为Attention Layer的输入，Attention Layer完成的工作为：</p>
+<p>$$output &#x3D; softmax(\frac{ Q @ K^T}{np.sqrt(Q.shape[-1])} + MASK) @ V$$​</p>
+<p>在我们的代码中定义如下：</p>
+<pre class="language-python" data-language="python"><code class="language-python"><span class="token comment"># [n_q, d_k], [n_k, d_k], [n_k, d_v], [n_q, n_k] -> [n_q, d_v]</span>
+<span class="token keyword">def</span> <span class="token function">attention</span><span class="token punctuation">(</span>q<span class="token punctuation">,</span> k<span class="token punctuation">,</span> v<span class="token punctuation">,</span> mask<span class="token punctuation">)</span><span class="token punctuation">:</span>
+  <span class="token keyword">return</span> softmax<span class="token punctuation">(</span>q @ k<span class="token punctuation">.</span>T <span class="token operator">/</span> np<span class="token punctuation">.</span>sqrt<span class="token punctuation">(</span>q<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">+</span> mask<span class="token punctuation">)</span> @ v</code></pre>
+
+<p>其中<code>@</code>表示矩阵乘积操作,  这个公式你暂时无需看懂， 接下来我将逐一介绍其各参数含义.</p>
+<p>另外, 在实际训练中，通过 <code>np.sqrt(q.shape[-1])</code> 进行缩放可以产生更好的梯度，但这对我们的手工制作的 Transformer 没有影响, 所以此处我们不做过多讨论</p>
+<h4 id="q-k-v-matrix"><a href="#q-k-v-matrix" class="headerlink" title="q&#x2F;k&#x2F;v matrix"></a>q&#x2F;k&#x2F;v matrix</h4><p>前文中，我们得到的Embdding matrix为：</p>
+<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240219231141263-1716293266904-1.png" class="" title="image-20240219231141263">
+
+<p>我们通过定义一个全连接层<code>c_attn</code>将<code>qkv</code>矩阵分割得到三个大小为<code>seq_len x (embed_size * 3)</code>的矩阵，即<code>q</code>, <code>k</code>,  <code>v</code> 三个矩阵, 在我们的模型中，attention的权重在 <code>c_attn</code>中定义：</p>
+<pre class="language-python" data-language="python"><code class="language-python">Lg <span class="token operator">=</span> <span class="token number">1024</span> <span class="token comment"># Large</span>
+
+MODEL <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+  <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">:</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span>
+  <span class="token string">"blocks"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">&#123;</span>
+      <span class="token string">"attn"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">"c_attn"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>  <span class="token comment"># generates qkv matrix</span>
+          <span class="token string">"b"</span><span class="token punctuation">:</span> np<span class="token punctuation">.</span>zeros<span class="token punctuation">(</span>N_EMBED <span class="token operator">*</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+          <span class="token string">"w"</span><span class="token punctuation">:</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span>
+            <span class="token comment"># this is where the magic happens</span>
+            <span class="token comment"># fmt: off</span>
+            <span class="token punctuation">[</span>
+              <span class="token punctuation">[</span>Lg<span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># q</span>
+                <span class="token number">1.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># k</span>
+                  <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment"># v</span>
+              <span class="token punctuation">[</span>Lg<span class="token punctuation">,</span> Lg<span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># q</span>
+                <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">1.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># k</span>
+                  <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment"># v</span>
+              <span class="token punctuation">[</span><span class="token number">0.</span><span class="token punctuation">,</span> Lg<span class="token punctuation">,</span> Lg<span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># q</span>
+                <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">1.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># k</span>
+                  <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment"># v</span>
+              <span class="token punctuation">[</span><span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> Lg<span class="token punctuation">,</span> Lg<span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># q</span>
+                <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">1.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># k</span>
+                  <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment"># v</span>
+              <span class="token punctuation">[</span><span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> Lg<span class="token punctuation">,</span> Lg<span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># q</span>
+                <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">1.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># k</span>
+                  <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment"># v</span>
+              <span class="token punctuation">[</span><span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># q</span>
+                <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># k</span>
+                  <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">1.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment"># v</span>
+              <span class="token punctuation">[</span><span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># q</span>
+                <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># k</span>
+                  <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment"># v</span>
+              <span class="token punctuation">[</span><span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># q</span>
+                <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># k</span>
+                  <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment"># v</span>
+            <span class="token punctuation">]</span>
+            <span class="token comment"># fmt: on</span>
+          <span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">:</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span>
+      <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+<p>在上面的权重中，我对<code>c_attn</code>不同行上的权重进行了格式化，以显示矩阵的<code>q</code>、<code>k</code>和<code>v</code>是来自于<code>qkv</code>矩阵的哪部分，这看起来似乎很吓人，但是<code>c_attn</code>只是一个常规的全连接层，这个全连接层的维度为： <code>embed_size x (embed_size * 3)</code>。</p>
+<p>经过计算 <code>embedding @ c_attn[&quot;w&quot;] + c_attn[&quot;b&quot;]</code>后，可以得到这个<code>5 x 24</code> ( <code>seq_len x (embed_size * 3)</code> )的矩阵<code>qkv</code>。（粗线表示我们之后要对矩阵进行的分割操作）</p>
+<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240219231744210-1716293290028-3.png" class="" title="image-20240219231744210">
+
+<p>将<code>qkv</code>矩阵分割得到三个大小为<code>seq_len x (embed_size * 3)</code>的矩阵，即<code>q</code>, <code>k</code>,  <code>v</code> 三个矩阵.</p>
+<p>使用python实现上述内容:</p>
+<pre class="language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">causal_self_attention</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> c_attn<span class="token punctuation">,</span> c_proj<span class="token punctuation">)</span><span class="token punctuation">:</span>
+  <span class="token comment"># qkv projections</span>
+  x <span class="token operator">=</span> linear<span class="token punctuation">(</span>x<span class="token punctuation">,</span> <span class="token operator">**</span>c_attn<span class="token punctuation">)</span> <span class="token comment"># [n_seq, n_embd] -> [n_seq, 3*n_embd]</span>
+  <span class="token comment"># split into qkv</span>
+  q<span class="token punctuation">,</span> k<span class="token punctuation">,</span> v <span class="token operator">=</span> np<span class="token punctuation">.</span>split<span class="token punctuation">(</span>x<span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> axis<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token comment"># [n_seq, 3*n_embd] -> 3 of [n_seq, n_embd]</span>
+  <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>	</code></pre>
+
+<h4 id="q-k-T"><a href="#q-k-T" class="headerlink" title="q @ k.T"></a>q @ k.T</h4><p><code>k</code>的意思应该很明确，是我们之前位置编码的结果，可以认为这是每个token提供的他的位置参数。</p>
+<p>但是<code>q</code>是什么？如果说<code>k</code>是每个token提供的，那么<code>q</code>就表示每个token所寻找的。但这在实际中意味着什么？</p>
+<p>在attention中，<code>k</code>矩阵会被转置并与被<code>q</code>相乘（ <code>q @ k.T</code>），产生一个 <code>seq_len x seq_len</code> 大小的矩阵，如下图所示：</p>
+<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240219232735352-1716293427827-5.png" class="" title="image-20240219232735352">
+
+<h4 id="q-k-T-mask"><a href="#q-k-T-mask" class="headerlink" title="q @ k.T + mask"></a>q @ k.T + mask</h4><p>接下来我们需要添加掩码（mask）,掩码的作用是什么?</p>
+<p>mask是为了防止模型看到未来的信息。对于<code>q@k.T</code>,  可以将每一行理解为该行信息需要预测生成的内容（例如：第一行表示模型看到token-0后需要生成的内容），token需要attention每一行的信息。这意味着，第一个预测（第0行）不能关注（attention）除了第0行以外的任意一行，因为第0行只有一个<code>1</code>，其他都是<code>0</code>。</p>
+<p>但是对于其他的预测，模型拥有至少两个token去attention，对于<code>aabaabaab</code>任务，只需要两个token即可。所以这个模型将其注意力分割至两个最近的可访问tokens中（没有被masked的token）。这意味着预测第二个token（第1行）需要付出相同的attention道token 0 和token1，以此类推，所以我们可以看到接下来每一行都有两个非0元素（0.5）。</p>
+<p>所以，在 <code>q @ k.T + mask</code>中添加的<code>mask</code>就是下面这个矩阵：</p>
+<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220145341709-1716293647711-12-1716337883987-1.png" class="" title="image-20240220145341709">
+
+<p> <code>mask</code>也防止模型在常规的梯度下降训练中作弊，如果没有<code>mask</code>模型会根据第二个token生成对第一个token的预测。在添加<code>-∞</code>后，这些位置的值会在softmax后被限制调整为0，这样保证里模型去真实地从前置序列中学习生成参数。</p>
+<p>在我们的样例中，<code>mask</code>并不会做任何事情，因为手动生成的transformer模型不会说谎，但是我们仍然保留<code>mask</code>，以确保我们的模型结构与GPT-2相同。</p>
+<h4 id="softmax"><a href="#softmax" class="headerlink" title="softmax"></a>softmax</h4><img src="C:/Users/suqi/OneDrive/Pictures/TyporaPicture/image-20240219233709078-1716293609027-8.png" alt="image-20240219233709078" style="zoom: 25%;" />
+
+<p>softmax是机器学习和深度学习中常用的一个函数，特别是在处理多分类问题时。softmax 函数可以将一个含任意实数的 K 维向量 “压缩” 到另一个 K 维实向量中，其中向量中的每个元素的取值都在 (0, 1) 之间，并且所有元素的和为 1。这使得 softmax 函数的输出可以被解释为一个概率分布。</p>
+<p>softmax的代码定义为：</p>
+<pre class="language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">softmax</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    exp_x <span class="token operator">=</span> np<span class="token punctuation">.</span>exp<span class="token punctuation">(</span>x <span class="token operator">-</span> np<span class="token punctuation">.</span><span class="token builtin">max</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> axis<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> keepdims<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> exp_x <span class="token operator">/</span> np<span class="token punctuation">.</span><span class="token builtin">sum</span><span class="token punctuation">(</span>exp_x<span class="token punctuation">,</span> axis<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> keepdims<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span></code></pre>
+
+<p>代码解释如下：</p>
+<ol>
+<li><code>def softmax(x):</code><ul>
+<li>这一行定义了名为 <code>softmax</code> 的函数，它接收一个参数 <code>x</code>。<code>x</code> 可以是一个数、一个向量或者一个矩阵，表示输入到 softmax 函数的值。</li>
+</ul>
+</li>
+<li><code>exp_x = np.exp(x - np.max(x, axis=-1, keepdims=True))</code><ul>
+<li><code>np.exp</code> 计算 <code>x</code> 中每个元素的指数。<code>x - np.max(x, axis=-1, keepdims=True)</code> 这部分代码先从 <code>x</code> 中的每个元素中减去 <code>x</code> 在最后一个轴（<code>axis=-1</code>）上的最大值。这是为了数值稳定性，避免在计算指数时出现数值溢出。</li>
+<li><code>axis=-1</code> 指的是数组的最后一个维度，这样可以保证这个操作是在正确的维度上进行的，适用于处理多维数组。</li>
+<li><code>keepdims=True</code> 确保输出数组的维度与输入数组相同，这在后续的除法操作中保持了维度的一致性。</li>
+</ul>
+</li>
+<li><code>return exp_x / np.sum(exp_x, axis=-1, keepdims=True)</code><ul>
+<li>这一行计算 softmax 函数的最终结果。<code>np.sum(exp_x, axis=-1, keepdims=True)</code> 计算 <code>exp_x</code> 在最后一个轴上的和，保持维度不变。然后，<code>exp_x</code> 中的每个元素都被这个和除以，从而得到 softmax 函数的输出。</li>
+<li>这样，输出的每个元素都是原始输入元素的指数与所有指数之和的比值，这保证了所有输出值的总和为 1，且每个值都在 (0, 1) 范围内。</li>
+</ul>
+</li>
+</ol>
+<p>这看起来很吓人，但是当你拆解后，softmax在做的事情为：</p>
+<ul>
+<li><p>对于矩阵中的每一行；</p>
+</li>
+<li><p>从其他元素中减去该行中的最大值（除了最大的元素为 0，每个元素都将为负数）</p>
+</li>
+<li><p>计算每个元素的指数 (<code>matrix[i, j] = e^matrix[i, j]</code> )</p>
+<ul>
+<li>这使得最大的元素为 1，因为<code>e^0 = 1</code></li>
+<li>略小于最大元素的值将接近 1，（例如 <code>e^-0.5~=0.6</code>)</li>
+<li>远小于最大元素的值将接近 0， (例如 <code>e^-10~=0.00004</code>)。</li>
+</ul>
+</li>
+<li><p>最后，我们将该行中的每个元素除以该行中所有值的总和，使该行的总和为 1（可以用作概率分布）</p>
+</li>
+</ul>
+<p>我们独立处理每一行，因为在我们的模型中，每一行都表示具有独立预测概率的token输入。</p>
+<p>这是一个softmax的实例：</p>
+<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220115620842-1716293609027-7.png" class="" title="image-20240220115620842">
+
+<p>注意，每一行中最大的数值总会输出最大的softmax结果，但这个数值足够大时，这个softmax结果会接近100%。同时注意最大值的绝对大小并不重要，重要的是与其他值之间的相对大小关系，因为在第一步会减去最大值，即<code>[10,0,0]</code>会处理为<code>[0.-10.-10]</code>。</p>
+<p>一个对softmax直观的理解是：softmax的工作类似于一个平滑的argmax，argmax将最大值映射到1，其他值映射到0-1的区间，但是softmax相对于argmax更加平滑。</p>
+<h4 id="softmax-q-k-T-mask"><a href="#softmax-q-k-T-mask" class="headerlink" title="softmax(q @ k.T + mask)"></a>softmax(q @ k.T + mask)</h4><p><code>softmax(q @ k.T + mask)</code>的结果为:</p>
+<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220120530131-1716293647711-11.png" class="" title="image-20240220120530131">
+
+<p>其中,  每一行都表示在模型在预测某一位置时，需要对不同位置token付出的注意力的多少。上图中，我们在做第一个预测时只需要关注第一个token，而当我们在做第二个及以后的预测时，需要同时关注当前位置的token与上一个位置的token。</p>
+<p>关于<code>mask</code>和<code>softmax</code>的讨论到此为止，总的来说， <code>softmax(q @ k.T / np.sqrt(q.shape[-1]) + mask)</code> 的结果为：</p>
+<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220150037365-1716293647711-13.png" class="" title="image-20240220150037365">
+
+<h4 id="softmax-q-k-T-mask-v"><a href="#softmax-q-k-T-mask-v" class="headerlink" title="softmax(q @ k.T + mask) @ v"></a>softmax(q @ k.T + mask) @ v</h4><p><code>v</code>是什么？attention的最后一步是将上面的矩阵与<code>v</code>进行乘积（ <code>softmax(q @ k.T ) + mask) @ v</code>），在这个公式中，v表示什么？</p>
+<p>我们再回忆一下之前的embedding矩阵：</p>
+<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220151650146-1716293813476-18.png" class="" title="image-20240220151650146">
+
+<p>通过<code>c_attn</code>中的线性关系，我们得到下面这个<code>qkv</code>矩阵：</p>
+<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220151828038-1716293813476-17.png" class="" title="image-20240220151828038">
+
+<p>关注其中的<code>v</code>部分，我们看到这个矩阵只有第七列有元素，而且但token表示<code>a</code>时,  这个元素为<code>1</code>,  而当这个token表示<code>b</code>时,  这个元素为<code>-1</code>。这意味着，v是由之前的 one-hot  encoding（<code>a = [1, 0], b = [0, 1]</code>）转化而来。</p>
+<p>回想我们预测<code>aabaab</code>的任务，或者说下面这个任务：</p>
+<ul>
+<li>if previous tokens are (a, a) &#x3D;&gt; predict b</li>
+<li>if previous tokens are (a, b) &#x3D;&gt; predict a</li>
+<li>if previous tokens are (b, a) &#x3D;&gt; predict a</li>
+<li>if previous tokens are (b, b) &#x3D;&gt; error, out of domain</li>
+</ul>
+<p>因为<code>bb</code>是非法的，所以我们只需要在当前两个token是相同的前提下预测<code>b</code>，而矩阵乘法包含求和，这就意味着我们可以用加法抵消，也就是: <code>0.5 + 0.5 = 1</code>,   <code>0.5 + (-0.5) = 0</code>。</p>
+<p>我们定义, 对于当前需要预测的元素, 其之前的两个元素分别为<code>t[-2]</code> <code>t[-1]</code>. 同时我们定义一个函数 <code>output </code>&#x3D; <code>t[-2]</code>+ <code>t[-1]</code></p>
+<p>通过对（a &#x3D; 1，b &#x3D; -1）编码，这个简单的等式正好就能满足我们的需求。等式的值为<code>0</code>时,  预测值为<code>a</code>，等式值为<code>1</code>时,  预测值为<code>b</code>.</p>
+<ul>
+<li>a, b → 0.5 * 1 + 0.5 * (-1) &#x3D; 0  → a</li>
+<li>b, a → 0.5 * (-1) + 0.5 * 1 &#x3D; 0 → a</li>
+<li>a, a → 0.5 * 1 + 0.5 * 1 &#x3D; 1 → b</li>
+</ul>
+<p>使用我们之前softmax矩阵的结果并且将其与分割下来的<code>v</code>矩阵进行乘积，对每一行进行计算后，对于<code>aabaa</code>这个输入，我们会得到一下这个结果：</p>
+<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220153450246-1716293871849-21.png" class="" title="image-20240220153450246">
+
+<p>最后一列的结果为：11001，即预测结果为bbaab，正确结果应为abaab。预测的第一个b错误，这个因为此处没有足够的数据支撑（前面只有一个a，下一个元素可以是a也可以是b），其余的预测都是正确的。</p>
+<h4 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h4><p>总的来说，<code>c_attn</code>主要做的工作是：</p>
+<ul>
+<li>将位置编码映射到”attention window”中的<code>q</code></li>
+<li>将位置编码提取到<code>k</code></li>
+<li>将<code>v</code>中的token embedding转化为<code>1/-1</code></li>
+<li>使用softmax将<code>q</code>和<code>k</code>合并（<code>softmax(q @ k.T / ... + mask)</code>），我们得到一个<code>seq_len x seq_len</code>大小的矩阵<ul>
+<li>在第一行，只关注第一个token</li>
+<li>在其余行，平等关注当前token和上一个token</li>
+</ul>
+</li>
+<li>最终，通过<code>softmax(q @ k.T / np.sqrt(q.shape[-1]) + mask) @ v</code>，使用加法抵消得到<ul>
+<li>每行中第七个元素是<code>0</code>时代表预测下一个元素为a</li>
+<li>每行中第七个元素是<code>1</code>时代表预测下一个元素为b</li>
+</ul>
+</li>
+</ul>
+<p>我们关于attention部分的讨论就此为止。</p>
+<h3 id="Projecting-back-to-embedding-space"><a href="#Projecting-back-to-embedding-space" class="headerlink" title="Projecting back to embedding space"></a>Projecting back to embedding space</h3><p>为了完成transformer模块，我们需要将attention的结果返回到常规编码中。我们的attention头将预测结果存放于 <code>embedding[row, 7]</code> (<code>1</code> for <code>b</code>, <code>0</code> for <code>a</code>)。但是在embedding中我们使用了one-hot策略，这个策略在<code>embedding[row, 5]</code>存放一个正值以表示a，在<code>embedding[row, 6]</code>存放一个正值以表示b。</p>
+<p>由于某些原因（稍后解释），我们不想在让这层表示为： <code>[..., 1, 0, ...]</code> or <code>[..., 0, 1, ...]</code>，我们想让其表示为： <code>[..., 1024, 0, ...]</code> or <code>[..., 0, 1024, ...]</code>。</p>
+<p>为了完成这点，我们需要做的是使用<code>c_proj</code>的偏置去将<code>embedding[row, 5]</code>的默认值设置为<code>1024</code>。并且适当缩放attention的结果并嵌入 <code>embedding[row, 7]</code>。</p>
+<pre class="language-python" data-language="python"><code class="language-python">Lg <span class="token operator">=</span> <span class="token number">1024</span>  <span class="token comment"># Large</span>
+
+MODEL <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+  <span class="token string">"wte"</span><span class="token punctuation">:</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span>
+  <span class="token string">"wpe"</span><span class="token punctuation">:</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span>
+  <span class="token string">"blocks"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">&#123;</span>
+      <span class="token string">"attn"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">"c_attn"</span><span class="token punctuation">:</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span>
+        <span class="token string">"c_proj"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>  <span class="token comment"># weights to project attn result back to embedding space</span>
+          <span class="token string">"b"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> Lg<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+          <span class="token string">"w"</span><span class="token punctuation">:</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span>
+            <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">-</span>Lg<span class="token punctuation">,</span> Lg<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+          <span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+      <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+<p>换句话说，在经过 <code>c_proj</code>之后,</p>
+<ul>
+<li><code>embedding[row, 5]</code> (表示 <code>a</code>) 等同于<code>Lg + (-Lg) * prediction</code></li>
+<li><code>embedding[row, 6]</code> (表示 <code>b</code>) 等同于<code>0 + Lg * prediction</code></li>
+</ul>
+<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220161019067-1716340090898-4.png" class="" title="image-20240220161019067">
+
+<p>在将attention的结果通过<code>c_proj</code>处理后，我们得到了这个矩阵，这个正是我们所需要的，被缩放1024倍、one-hot模式预测的矩阵。</p>
+<h3 id="Residual-connection"><a href="#Residual-connection" class="headerlink" title="Residual connection"></a>Residual connection</h3><p>残差链接可以帮助深度神经网络维持主要的信息流通过大量的层&#x2F;我们将原始输入添加到输出的过程成为残差连接, 也就是将<code>c_proj</code>的原始输入添加到了<code>c_proj</code>的输出中。</p>
+<p>体现在 <code>transformer_block</code>中，我们使用 <code>x = x + causal_self_attention(x, ...)</code> 而不是简单的 <code>x = causal_self_attention(x, ...)</code>。</p>
+<p>但是在我们的样例中，这并没有什么作用. 这就是为什么 <code>c_proj</code> 的输出被缩放了<code>1024</code>倍：为了排除不需要的残差链接的影响。</p>
+<p>经过残差连接后, transformer模块的最终输出为: </p>
+<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240224162758287-1716340090898-3-1716340879666-11.png" class="" title="image-20240224162758287">
+
+<h2 id="Projecting-back-to-vocabulary-space"><a href="#Projecting-back-to-vocabulary-space" class="headerlink" title="Projecting back to vocabulary space"></a>Projecting back to vocabulary space</h2><p>将transformer模块的输出的结果矩阵与转置后的token embedding weights (<code>wte</code>)相乘，来得到最终的结果。</p>
+<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240224163611184-1716340090898-6.png" class="" title="image-20240224163611184">
+
+<p>结果中的红色部分表示模型由于残差连接而略微倾向于重复一个token。但是相较于<code>1024</code>的输出，最终预测结果经过<code>softmax</code>后仍然100%倾向于某个词。</p>
+<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240224163947252-1716340090898-5.png" class="" title="image-20240224163947252">
+
+<p>也就是说，当给到<code>aabaa</code>序列时，模型会预测为：</p>
+<ul>
+<li>a 后面的标记是 b（可以接受，二者皆可）</li>
+<li>aa 后面的标记是 b（正确！）。</li>
+<li>aab 后面的标记是 a（正确！）。</li>
+<li>aaba 后面的标记是 a（正确！）。</li>
+<li>aabaa 后面的标记是 b（正确！）。</li>
+</ul>
+<p>当然了，对于模型推理来说，我们只关心最后一行的预测结果：<code>aabaa</code>后是<code>a</code>。其他预测只对模型训练有用。</p>
+<p>在设置完成所有的模型权重之后，我们可以写一个<code>complete</code>函数来证明我们模型输出的正确性：</p>
+<pre class="language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">complete</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span> max_new_tokens<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+  tokens <span class="token operator">=</span> tokenize<span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+  <span class="token keyword">while</span> <span class="token builtin">len</span><span class="token punctuation">(</span>tokens<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span> <span class="token operator">+</span> max_new_tokens<span class="token punctuation">:</span>
+    logits <span class="token operator">=</span> gpt<span class="token punctuation">(</span>np<span class="token punctuation">.</span>array<span class="token punctuation">(</span>tokens<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">5</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">**</span>MODEL<span class="token punctuation">)</span>
+    probs <span class="token operator">=</span> softmax<span class="token punctuation">(</span>logits<span class="token punctuation">)</span>
+    pred <span class="token operator">=</span> np<span class="token punctuation">.</span>argmax<span class="token punctuation">(</span>probs<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment"># greedy sample, but temperature sampling would give the same results in our case</span>
+    tokens<span class="token punctuation">.</span>append<span class="token punctuation">(</span>pred<span class="token punctuation">)</span>
+  <span class="token keyword">return</span> s <span class="token operator">+</span> <span class="token string">" :: "</span> <span class="token operator">+</span> <span class="token string">""</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span>untok<span class="token punctuation">(</span>t<span class="token punctuation">)</span> <span class="token keyword">for</span> t <span class="token keyword">in</span> tokens<span class="token punctuation">[</span><span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>complete<span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment"># a :: baabaabaab</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>complete<span class="token punctuation">(</span><span class="token string">"ba"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment"># ba :: abaabaabaa</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>complete<span class="token punctuation">(</span><span class="token string">"abaab"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment"># abaab :: aabaabaaba</span></code></pre>
+
+<p>这个模型甚至能从错误的输出中恢复，以输出正确的答案。</p>
+<p>如果我们写一个小型的测试循环对模型进行测试，这个手工制作的模型具有100%的正确率（只要有明确的上下文）。</p>
+<pre class="language-python" data-language="python"><code class="language-python">test <span class="token operator">=</span> <span class="token string">"aab"</span> <span class="token operator">*</span> <span class="token number">10</span>
+total<span class="token punctuation">,</span> correct <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token builtin">len</span><span class="token punctuation">(</span>test<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+  ctx <span class="token operator">=</span> test<span class="token punctuation">[</span><span class="token punctuation">:</span>i<span class="token punctuation">]</span>
+  expected <span class="token operator">=</span> test<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+  total <span class="token operator">+=</span> <span class="token number">1</span>
+  <span class="token keyword">if</span> untok<span class="token punctuation">(</span>predict<span class="token punctuation">(</span>ctx<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">==</span> expected<span class="token punctuation">:</span>
+    correct <span class="token operator">+=</span> <span class="token number">1</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"ACCURACY: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>correct <span class="token operator">/</span> total <span class="token operator">*</span> <span class="token number">100</span><span class="token punctuation">&#125;</span></span><span class="token string">% (</span><span class="token interpolation"><span class="token punctuation">&#123;</span>correct<span class="token punctuation">&#125;</span></span><span class="token string"> / </span><span class="token interpolation"><span class="token punctuation">&#123;</span>total<span class="token punctuation">&#125;</span></span><span class="token string">)"</span></span><span class="token punctuation">)</span>
+<span class="token comment"># ACCURACY: 100.0% (27 / 27)</span></code></pre>
+
+<h2 id="Completed-code"><a href="#Completed-code" class="headerlink" title="Completed code"></a>Completed code</h2><pre class="language-python" data-language="python"><code class="language-python"><span class="token comment"># Model ops from https://github.com/jaymody/picoGPT/blob/main/gpt2.py (MIT license)</span>
+
+<span class="token keyword">import</span> numpy <span class="token keyword">as</span> np
+
+
+<span class="token keyword">def</span> <span class="token function">softmax</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    exp_x <span class="token operator">=</span> np<span class="token punctuation">.</span>exp<span class="token punctuation">(</span>x <span class="token operator">-</span> np<span class="token punctuation">.</span><span class="token builtin">max</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> axis<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> keepdims<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> exp_x <span class="token operator">/</span> np<span class="token punctuation">.</span><span class="token builtin">sum</span><span class="token punctuation">(</span>exp_x<span class="token punctuation">,</span> axis<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> keepdims<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+
+<span class="token comment"># [m, in], [in, out], [out] -> [m, out]</span>
+<span class="token keyword">def</span> <span class="token function">linear</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> w<span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> x @ w <span class="token operator">+</span> b
+
+<span class="token comment"># [n_q, d_k], [n_k, d_k], [n_k, d_v], [n_q, n_k] -> [n_q, d_v]</span>
+<span class="token keyword">def</span> <span class="token function">attention</span><span class="token punctuation">(</span>q<span class="token punctuation">,</span> k<span class="token punctuation">,</span> v<span class="token punctuation">,</span> mask<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> softmax<span class="token punctuation">(</span>q @ k<span class="token punctuation">.</span>T <span class="token operator">/</span> np<span class="token punctuation">.</span>sqrt<span class="token punctuation">(</span>q<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">+</span> mask<span class="token punctuation">)</span> @ v
+
+<span class="token comment"># [n_seq, n_embd] -> [n_seq, n_embd]</span>
+<span class="token keyword">def</span> <span class="token function">causal_self_attention</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> c_attn<span class="token punctuation">,</span> c_proj<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># qkv projections</span>
+    x <span class="token operator">=</span> linear<span class="token punctuation">(</span>x<span class="token punctuation">,</span> <span class="token operator">**</span>c_attn<span class="token punctuation">)</span>  <span class="token comment"># [n_seq, n_embd] -> [n_seq, 3*n_embd]</span>
+
+    <span class="token comment"># split into qkv</span>
+    q<span class="token punctuation">,</span> k<span class="token punctuation">,</span> v <span class="token operator">=</span> np<span class="token punctuation">.</span>split<span class="token punctuation">(</span>x<span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> axis<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>  <span class="token comment"># [n_seq, 3*n_embd] -> 3 of [n_seq, n_embd]</span>
+
+    <span class="token comment"># causal mask to hide future inputs from being attended to</span>
+    causal_mask <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">-</span> np<span class="token punctuation">.</span>tri<span class="token punctuation">(</span>x<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>x<span class="token punctuation">.</span>dtype<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token operator">-</span><span class="token number">1e10</span>  <span class="token comment"># [n_seq, n_seq]</span>
+
+    <span class="token comment"># perform causal self attention</span>
+    x <span class="token operator">=</span> attention<span class="token punctuation">(</span>q<span class="token punctuation">,</span> k<span class="token punctuation">,</span> v<span class="token punctuation">,</span> causal_mask<span class="token punctuation">)</span>  <span class="token comment"># [n_seq, n_embd] -> [n_seq, n_embd]</span>
+
+    <span class="token comment"># out projection</span>
+    x <span class="token operator">=</span> linear<span class="token punctuation">(</span>x<span class="token punctuation">,</span> <span class="token operator">**</span>c_proj<span class="token punctuation">)</span>  <span class="token comment"># [n_seq, n_embd] @ [n_embd, n_embd] = [n_seq, n_embd]</span>
+
+    <span class="token keyword">return</span> x
+
+<span class="token comment"># [n_seq, n_embd] -> [n_seq, n_embd]</span>
+<span class="token keyword">def</span> <span class="token function">transformer_block</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> attn<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    x <span class="token operator">=</span> x <span class="token operator">+</span> causal_self_attention<span class="token punctuation">(</span>x<span class="token punctuation">,</span> <span class="token operator">**</span>attn<span class="token punctuation">)</span>
+    <span class="token comment"># NOTE: removed ffn</span>
+    <span class="token keyword">return</span> x
+
+<span class="token comment"># [n_seq] -> [n_seq, n_vocab]</span>
+<span class="token keyword">def</span> <span class="token function">gpt</span><span class="token punctuation">(</span>inputs<span class="token punctuation">,</span> wte<span class="token punctuation">,</span> wpe<span class="token punctuation">,</span> blocks<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># token + positional embeddings</span>
+    x <span class="token operator">=</span> wte<span class="token punctuation">[</span>inputs<span class="token punctuation">]</span> <span class="token operator">+</span> wpe<span class="token punctuation">[</span><span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>inputs<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">]</span>  <span class="token comment"># [n_seq] -> [n_seq, n_embd]</span>
+
+    <span class="token comment"># forward pass through n_layer transformer blocks</span>
+    <span class="token keyword">for</span> block <span class="token keyword">in</span> blocks<span class="token punctuation">:</span>
+        x <span class="token operator">=</span> transformer_block<span class="token punctuation">(</span>x<span class="token punctuation">,</span> <span class="token operator">**</span>block<span class="token punctuation">)</span>  <span class="token comment"># [n_seq, n_embd] -> [n_seq, n_embd]</span>
+
+    <span class="token comment"># projection to vocab</span>
+    <span class="token keyword">return</span> x @ wte<span class="token punctuation">.</span>T  <span class="token comment"># [n_seq, n_embd] -> [n_seq, n_vocab]</span>
+
+
+N_CTX <span class="token operator">=</span> <span class="token number">5</span>
+N_VOCAB <span class="token operator">=</span> <span class="token number">2</span>
+N_EMBED <span class="token operator">=</span> <span class="token number">8</span>
+
+Lg <span class="token operator">=</span> <span class="token number">1024</span>  <span class="token comment"># Large</span>
+
+MODEL <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment"># EMBEDDING USAGE</span>
+    <span class="token comment">#  P = Position embeddings (one-hot)</span>
+    <span class="token comment">#  T = Token embeddings (one-hot, first is `a`, second is `b`)</span>
+    <span class="token comment">#  V = Prediction scratch space</span>
+    <span class="token comment">#</span>
+    <span class="token comment">#       [P, P, P, P, P, T, T, V]</span>
+    <span class="token string">"wte"</span><span class="token punctuation">:</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span>
+        <span class="token comment"># one-hot token embeddings</span>
+        <span class="token punctuation">[</span>
+            <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># token `a` (id 0)</span>
+            <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># token `b` (id 1)</span>
+        <span class="token punctuation">]</span>
+    <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token string">"wpe"</span><span class="token punctuation">:</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span>
+        <span class="token comment"># one-hot position embeddings</span>
+        <span class="token punctuation">[</span>
+            <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># position 0</span>
+            <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># position 1</span>
+            <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># position 2</span>
+            <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># position 3</span>
+            <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># position 4</span>
+        <span class="token punctuation">]</span>
+    <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token string">"blocks"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token string">"attn"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+                <span class="token string">"c_attn"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>  <span class="token comment"># generates qkv matrix</span>
+                    <span class="token string">"b"</span><span class="token punctuation">:</span> np<span class="token punctuation">.</span>zeros<span class="token punctuation">(</span>N_EMBED <span class="token operator">*</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token string">"w"</span><span class="token punctuation">:</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span>
+                        <span class="token comment"># this is where the magic happens</span>
+                        <span class="token comment"># fmt: off</span>
+                        <span class="token punctuation">[</span>
+                          <span class="token punctuation">[</span>Lg<span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># q</span>
+                            <span class="token number">1.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># k</span>
+                              <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment"># v</span>
+                          <span class="token punctuation">[</span>Lg<span class="token punctuation">,</span> Lg<span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># q</span>
+                            <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">1.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># k</span>
+                              <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment"># v</span>
+                          <span class="token punctuation">[</span><span class="token number">0.</span><span class="token punctuation">,</span> Lg<span class="token punctuation">,</span> Lg<span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># q</span>
+                            <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">1.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># k</span>
+                              <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment"># v</span>
+                          <span class="token punctuation">[</span><span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> Lg<span class="token punctuation">,</span> Lg<span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># q</span>
+                            <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">1.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># k</span>
+                              <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment"># v</span>
+                          <span class="token punctuation">[</span><span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> Lg<span class="token punctuation">,</span> Lg<span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># q</span>
+                            <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">1.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># k</span>
+                              <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment"># v</span>
+                          <span class="token punctuation">[</span><span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># q</span>
+                            <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># k</span>
+                              <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">1.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment"># v</span>
+                          <span class="token punctuation">[</span><span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># q</span>
+                            <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># k</span>
+                              <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment"># v</span>
+                          <span class="token punctuation">[</span><span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># q</span>
+                            <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span>  <span class="token comment"># k</span>
+                              <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment"># v</span>
+                        <span class="token punctuation">]</span>
+                        <span class="token comment"># fmt: on</span>
+                    <span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                <span class="token string">"c_proj"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>  <span class="token comment"># weights to project attn result back to embedding space</span>
+                    <span class="token string">"b"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> Lg<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                    <span class="token string">"w"</span><span class="token punctuation">:</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span>
+                        <span class="token punctuation">[</span>
+                            <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                            <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                            <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                            <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                            <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                            <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                            <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                            <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">-</span>Lg<span class="token punctuation">,</span> Lg<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                        <span class="token punctuation">]</span>
+                    <span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span>
+
+CHARS <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"a"</span><span class="token punctuation">,</span> <span class="token string">"b"</span><span class="token punctuation">]</span>
+<span class="token keyword">def</span> <span class="token function">tokenize</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">return</span> <span class="token punctuation">[</span>CHARS<span class="token punctuation">.</span>index<span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token keyword">for</span> c <span class="token keyword">in</span> s<span class="token punctuation">]</span>
+<span class="token keyword">def</span> <span class="token function">untok</span><span class="token punctuation">(</span>tok<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">return</span> CHARS<span class="token punctuation">[</span>tok<span class="token punctuation">]</span>
+
+<span class="token keyword">def</span> <span class="token function">predict</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    tokens <span class="token operator">=</span> tokenize<span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">5</span><span class="token punctuation">:</span><span class="token punctuation">]</span>
+    logits <span class="token operator">=</span> gpt<span class="token punctuation">(</span>np<span class="token punctuation">.</span>array<span class="token punctuation">(</span>tokens<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">**</span>MODEL<span class="token punctuation">)</span>
+    probs <span class="token operator">=</span> softmax<span class="token punctuation">(</span>logits<span class="token punctuation">)</span>
+
+    <span class="token keyword">for</span> i<span class="token punctuation">,</span> tok <span class="token keyword">in</span> <span class="token builtin">enumerate</span><span class="token punctuation">(</span>tokens<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        pred <span class="token operator">=</span> np<span class="token punctuation">.</span>argmax<span class="token punctuation">(</span>probs<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span>
+            <span class="token string-interpolation"><span class="token string">f"</span><span class="token interpolation"><span class="token punctuation">&#123;</span>untok<span class="token punctuation">(</span>tok<span class="token punctuation">)</span><span class="token punctuation">&#125;</span></span><span class="token string"> (</span><span class="token interpolation"><span class="token punctuation">&#123;</span>tok<span class="token punctuation">&#125;</span></span><span class="token string">): next=</span><span class="token interpolation"><span class="token punctuation">&#123;</span>untok<span class="token punctuation">(</span>pred<span class="token punctuation">)</span><span class="token punctuation">&#125;</span></span><span class="token string"> (</span><span class="token interpolation"><span class="token punctuation">&#123;</span>pred<span class="token punctuation">&#125;</span></span><span class="token string">) probs=</span><span class="token interpolation"><span class="token punctuation">&#123;</span>probs<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">&#125;</span></span><span class="token string"> logits=</span><span class="token interpolation"><span class="token punctuation">&#123;</span>logits<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span>
+        <span class="token punctuation">)</span>
+
+    <span class="token keyword">return</span> np<span class="token punctuation">.</span>argmax<span class="token punctuation">(</span>probs<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">complete</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span> max_new_tokens<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    tokens <span class="token operator">=</span> tokenize<span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+    <span class="token keyword">while</span> <span class="token builtin">len</span><span class="token punctuation">(</span>tokens<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span> <span class="token operator">+</span> max_new_tokens<span class="token punctuation">:</span>
+        logits <span class="token operator">=</span> gpt<span class="token punctuation">(</span>np<span class="token punctuation">.</span>array<span class="token punctuation">(</span>tokens<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">5</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">**</span>MODEL<span class="token punctuation">)</span>
+        probs <span class="token operator">=</span> softmax<span class="token punctuation">(</span>logits<span class="token punctuation">)</span>
+        pred <span class="token operator">=</span> np<span class="token punctuation">.</span>argmax<span class="token punctuation">(</span>probs<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        tokens<span class="token punctuation">.</span>append<span class="token punctuation">(</span>pred<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> s <span class="token operator">+</span> <span class="token string">" :: "</span> <span class="token operator">+</span> <span class="token string">""</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span>untok<span class="token punctuation">(</span>t<span class="token punctuation">)</span> <span class="token keyword">for</span> t <span class="token keyword">in</span> tokens<span class="token punctuation">[</span><span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+test <span class="token operator">=</span> <span class="token string">"aab"</span> <span class="token operator">*</span> <span class="token number">10</span>
+total<span class="token punctuation">,</span> correct <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token builtin">len</span><span class="token punctuation">(</span>test<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    ctx <span class="token operator">=</span> test<span class="token punctuation">[</span><span class="token punctuation">:</span>i<span class="token punctuation">]</span>
+    expected <span class="token operator">=</span> test<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+    total <span class="token operator">+=</span> <span class="token number">1</span>
+    <span class="token keyword">if</span> untok<span class="token punctuation">(</span>predict<span class="token punctuation">(</span>ctx<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">==</span> expected<span class="token punctuation">:</span>
+        correct <span class="token operator">+=</span> <span class="token number">1</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"ACCURACY: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>correct <span class="token operator">/</span> total <span class="token operator">*</span> <span class="token number">100</span><span class="token punctuation">&#125;</span></span><span class="token string">% (</span><span class="token interpolation"><span class="token punctuation">&#123;</span>correct<span class="token punctuation">&#125;</span></span><span class="token string"> / </span><span class="token interpolation"><span class="token punctuation">&#123;</span>total<span class="token punctuation">&#125;</span></span><span class="token string">)"</span></span><span class="token punctuation">)</span></code></pre>
+
+<h2 id="Others"><a href="#Others" class="headerlink" title="Others"></a>Others</h2><p>为了保证整体结构清晰,我删去了一些GPT-2中的结构，包括：</p>
+<ul>
+<li>去掉了层归一化，因为它们很难处理。我想要传递漂亮的矩阵，里面有很多0和1，容易推理，但是层归一化却想要把我的 <code>1</code> 和 <code>0</code> 变成 <code>1.73200462</code> 和 <code>-0.57733487</code>：</li>
+</ul>
+<pre class="language-none"><code class="language-none">pythonCopy codedef layer_norm(x, g, b, eps: float &#x3D; 1e-5):
+  mean &#x3D; np.mean(x, axis&#x3D;-1, keepdims&#x3D;True)
+  variance &#x3D; np.var(x, axis&#x3D;-1, keepdims&#x3D;True)
+  # 对x进行归一化，使得最后一个轴上的均值为0，方差为1
+  x &#x3D; (x - mean) &#x2F; np.sqrt(variance + eps)
+  return g * x + b  # 使用gamma&#x2F;beta参数进行缩放和偏移</code></pre>
+
+<p>（我本可以通过将 gamma 分配回 <code>np.sqrt(...)</code> 缩放来逆转效果，将 beta 分配回 <code>(x - mean)</code> 偏移来逆转效果，但是与其每次进行无关的更改时都修复它们，不如直接完全移除层归一化更容易。）</p>
+<ul>
+<li>使用了单头注意力而不是多头注意力，因为不需要多个头。</li>
+<li>去掉了变压器块中的 <code>mlp</code> 前馈层，因为我不需要它。（尽管我可以将它设置为单位矩阵。）</li>
+</ul>
+<p>不像一些其他变压器架构，GPT-2 使用纯学习的位置嵌入，所以这里没有任何正弦或 RoPEs。</p>
+<p>实际上，<code>q</code> 或 <code>k</code> 不需要担任这些角色——在这篇文章的原始版本中，我把它们颠倒了，<code>q</code> 是提取的位置嵌入，<code>k</code> 是查询。但是，现在文章中的方式更常见，更适合矩阵名称——尽管 GPT-2 从来没听说过那些名称 ;-)</p>
+<p>实际上，代码中使用的不是 <code>-∞</code>，而是像 <code>-1e10</code> 这样的数字，以避免 <code>NaN</code> 的问题，但实际效果是一样的。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/05/22/2024%E5%B9%B45%E6%9C%88%E7%94%9F%E6%B4%BB%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" rel="prev" title="2024年5月生活学习记录">
+                  <i class="fa fa-angle-left"></i> 2024年5月生活学习记录
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">suqi</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
