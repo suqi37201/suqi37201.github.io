@@ -22,39 +22,39 @@
     <meta name="description" content="通过手动指定权重, 使用python制作一个简单的transformer模型.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Make a transformer model by hand">
-<meta property="og:url" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/index.html">
+<meta property="og:url" content="https://blog.suqi.space/2024/05/23/Make%20a%20transformer%20model%20by%20hand/index.html">
 <meta property="og:site_name" content="Blog of suqi">
 <meta property="og:description" content="通过手动指定权重, 使用python制作一个简单的transformer模型.">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240219221931261-1713934610641-1.png">
-<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240219224615783-1713936085221-3.png">
-<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240219231141263-1716293266904-1.png">
-<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240219231744210-1716293290028-3.png">
-<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240219232735352-1716293427827-5.png">
-<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220145341709-1716293647711-12-1716337883987-1.png">
-<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240219233709078-1716293609027-8.png">
-<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220115620842-1716293609027-7.png">
-<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220120530131-1716293647711-11.png">
-<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220150037365-1716293647711-13.png">
-<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220151650146-1716293813476-18.png">
-<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220151828038-1716293813476-17.png">
-<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220153450246-1716293871849-21.png">
-<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220161019067-1716340090898-4.png">
-<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240224162758287-1716340090898-3-1716340879666-11.png">
-<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240224163611184-1716340090898-6.png">
-<meta property="og:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240224163947252-1716340090898-5.png">
-<meta property="article:published_time" content="2024-05-22T13:50:47.807Z">
-<meta property="article:modified_time" content="2024-05-22T13:50:47.807Z">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240219221931261-1713934610641-1.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240219224615783-1713936085221-3.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240219231141263-1716293266904-1.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240219231744210-1716293290028-3.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240219232735352-1716293427827-5.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240220145341709-1716293647711-12-1716337883987-1.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240219233709078-1716293609027-8.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240220115620842-1716293609027-7.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240220120530131-1716293647711-11.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240220150037365-1716293647711-13.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240220151650146-1716293813476-18.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240220151828038-1716293813476-17.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240220153450246-1716293871849-21.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240220161019067-1716340090898-4.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240224162758287-1716340090898-3-1716340879666-11.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240224163611184-1716340090898-6.png">
+<meta property="og:image" content="https://blog.suqi.space/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240224163947252-1716340090898-5.png">
+<meta property="article:published_time" content="2024-05-23T13:27:28.884Z">
+<meta property="article:modified_time" content="2024-05-23T13:27:28.884Z">
 <meta property="article:author" content="suqi">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240219221931261-1713934610641-1.png">
+<meta name="twitter:image" content="https://blog.suqi.space/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240219221931261-1713934610641-1.png">
 
 
-<link rel="canonical" href="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/">
+<link rel="canonical" href="https://blog.suqi.space/2024/05/23/Make%20a%20transformer%20model%20by%20hand/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/","path":"2024/05/22/Make a transformer model by hand/","title":"Make a transformer model by hand"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://blog.suqi.space/2024/05/23/Make%20a%20transformer%20model%20by%20hand/","path":"2024/05/23/Make a transformer model by hand/","title":"Make a transformer model by hand"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>Make a transformer model by hand | Blog of suqi</title>
@@ -170,7 +170,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://blog.suqi.space/2024/05/22/Make%20a%20transformer%20model%20by%20hand/">
+    <link itemprop="mainEntityOfPage" href="https://blog.suqi.space/2024/05/23/Make%20a%20transformer%20model%20by%20hand/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -199,7 +199,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2024-05-22 13:50:47" itemprop="dateCreated datePublished" datetime="2024-05-22T13:50:47+00:00">2024-05-22</time>
+      <time title="Created: 2024-05-23 13:27:28" itemprop="dateCreated datePublished" datetime="2024-05-23T13:27:28+00:00">2024-05-23</time>
     </span>
 
   
@@ -230,7 +230,7 @@ untok<span class="token punctuation">(</span><span class="token number">0</span>
 untok<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token comment"># => "b"</span></code></pre>
 
 <h3 id="Model-Architecture"><a href="#Model-Architecture" class="headerlink" title="Model Architecture"></a>Model Architecture</h3><p>我们选择了类GPT-2的模型架构，具体而言，如下图所示，接下来我将逐一实现这个模型中的每一部分。</p>
-<style>.wnljillwcjlx{zoom: 50%;}</style><img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240219221931261-1713934610641-1.png" class="wnljillwcjlx" alt="image-20240219221931261">
+<style>.mbftorbzxbmf{zoom: 50%;}</style><img src="/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240219221931261-1713934610641-1.png" class="mbftorbzxbmf" alt="image-20240219221931261">
 
 <h3 id="Model-Parameter"><a href="#Model-Parameter" class="headerlink" title="Model Parameter"></a>Model Parameter</h3><p>我们需要确定三个模型参数：</p>
 <ul>
@@ -281,7 +281,7 @@ N_EMBED <span class="token operator">=</span> <span class="token number">8</span
 <span class="token punctuation">&#125;</span></code></pre>
 
 <p>如果我们使用这个策略编码这个序列<code>&quot;aabaa&quot;</code>，我们可以得到下面这个embedding 矩阵，矩阵的大小为 <code>5 x 8</code> (<code>seq_len x embedding_size</code>)。</p>
-<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240219224615783-1713936085221-3.png" class="" title="image-20240219224615783">
+<img src="/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240219224615783-1713936085221-3.png" class="" title="image-20240219224615783">
 
 <p>接下来我们的模型都基于这个embedding 工作，直到最后投射回vocabulary-space。</p>
 <p>注意，第七个embedding的第七个元素并没有使用，这将作为transformer模型中的暂存空间。</p>
@@ -300,7 +300,7 @@ N_EMBED <span class="token operator">=</span> <span class="token number">8</span
 <p>其中<code>@</code>表示矩阵乘积操作,  这个公式你暂时无需看懂， 接下来我将逐一介绍其各参数含义.</p>
 <p>另外, 在实际训练中，通过 <code>np.sqrt(q.shape[-1])</code> 进行缩放可以产生更好的梯度，但这对我们的手工制作的 Transformer 没有影响, 所以此处我们不做过多讨论</p>
 <h4 id="q-k-v-matrix"><a href="#q-k-v-matrix" class="headerlink" title="q&#x2F;k&#x2F;v matrix"></a>q&#x2F;k&#x2F;v matrix</h4><p>前文中，我们得到的Embdding matrix为：</p>
-<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240219231141263-1716293266904-1.png" class="" title="image-20240219231141263">
+<img src="/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240219231141263-1716293266904-1.png" class="" title="image-20240219231141263">
 
 <p>我们通过定义一个全连接层<code>c_attn</code>将<code>qkv</code>矩阵分割得到三个大小为<code>seq_len x (embed_size * 3)</code>的矩阵，即<code>q</code>, <code>k</code>,  <code>v</code> 三个矩阵, 在我们的模型中，attention的权重在 <code>c_attn</code>中定义：</p>
 <pre class="language-python" data-language="python"><code class="language-python">Lg <span class="token operator">=</span> <span class="token number">1024</span> <span class="token comment"># Large</span>
@@ -352,7 +352,7 @@ MODEL <span class="token operator">=</span> <span class="token punctuation">&#12
 
 <p>在上面的权重中，我对<code>c_attn</code>不同行上的权重进行了格式化，以显示矩阵的<code>q</code>、<code>k</code>和<code>v</code>是来自于<code>qkv</code>矩阵的哪部分，这看起来似乎很吓人，但是<code>c_attn</code>只是一个常规的全连接层，这个全连接层的维度为： <code>embed_size x (embed_size * 3)</code>。</p>
 <p>经过计算 <code>embedding @ c_attn[&quot;w&quot;] + c_attn[&quot;b&quot;]</code>后，可以得到这个<code>5 x 24</code> ( <code>seq_len x (embed_size * 3)</code> )的矩阵<code>qkv</code>。（粗线表示我们之后要对矩阵进行的分割操作）</p>
-<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240219231744210-1716293290028-3.png" class="" title="image-20240219231744210">
+<img src="/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240219231744210-1716293290028-3.png" class="" title="image-20240219231744210">
 
 <p>将<code>qkv</code>矩阵分割得到三个大小为<code>seq_len x (embed_size * 3)</code>的矩阵，即<code>q</code>, <code>k</code>,  <code>v</code> 三个矩阵.</p>
 <p>使用python实现上述内容:</p>
@@ -366,17 +366,17 @@ MODEL <span class="token operator">=</span> <span class="token punctuation">&#12
 <h4 id="q-k-T"><a href="#q-k-T" class="headerlink" title="q @ k.T"></a>q @ k.T</h4><p><code>k</code>的意思应该很明确，是我们之前位置编码的结果，可以认为这是每个token提供的他的位置参数。</p>
 <p>但是<code>q</code>是什么？如果说<code>k</code>是每个token提供的，那么<code>q</code>就表示每个token所寻找的。但这在实际中意味着什么？</p>
 <p>在attention中，<code>k</code>矩阵会被转置并与被<code>q</code>相乘（ <code>q @ k.T</code>），产生一个 <code>seq_len x seq_len</code> 大小的矩阵，如下图所示：</p>
-<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240219232735352-1716293427827-5.png" class="" title="image-20240219232735352">
+<img src="/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240219232735352-1716293427827-5.png" class="" title="image-20240219232735352">
 
 <h4 id="q-k-T-mask"><a href="#q-k-T-mask" class="headerlink" title="q @ k.T + mask"></a>q @ k.T + mask</h4><p>接下来我们需要添加掩码（mask）,掩码的作用是什么?</p>
 <p>mask是为了防止模型看到未来的信息。对于<code>q@k.T</code>,  可以将每一行理解为该行信息需要预测生成的内容（例如：第一行表示模型看到token-0后需要生成的内容），token需要attention每一行的信息。这意味着，第一个预测（第0行）不能关注（attention）除了第0行以外的任意一行，因为第0行只有一个<code>1</code>，其他都是<code>0</code>。</p>
 <p>但是对于其他的预测，模型拥有至少两个token去attention，对于<code>aabaabaab</code>任务，只需要两个token即可。所以这个模型将其注意力分割至两个最近的可访问tokens中（没有被masked的token）。这意味着预测第二个token（第1行）需要付出相同的attention道token 0 和token1，以此类推，所以我们可以看到接下来每一行都有两个非0元素（0.5）。</p>
 <p>所以，在 <code>q @ k.T + mask</code>中添加的<code>mask</code>就是下面这个矩阵：</p>
-<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220145341709-1716293647711-12-1716337883987-1.png" class="" title="image-20240220145341709">
+<img src="/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240220145341709-1716293647711-12-1716337883987-1.png" class="" title="image-20240220145341709">
 
 <p> <code>mask</code>也防止模型在常规的梯度下降训练中作弊，如果没有<code>mask</code>模型会根据第二个token生成对第一个token的预测。在添加<code>-∞</code>后，这些位置的值会在softmax后被限制调整为0，这样保证里模型去真实地从前置序列中学习生成参数。</p>
 <p>在我们的样例中，<code>mask</code>并不会做任何事情，因为手动生成的transformer模型不会说谎，但是我们仍然保留<code>mask</code>，以确保我们的模型结构与GPT-2相同。</p>
-<h4 id="softmax"><a href="#softmax" class="headerlink" title="softmax"></a>softmax</h4><style>.xrqsxmhtbnwq{zoom: 25%;}</style><img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240219233709078-1716293609027-8.png" class="xrqsxmhtbnwq" alt="image-20240219233709078">
+<h4 id="softmax"><a href="#softmax" class="headerlink" title="softmax"></a>softmax</h4><style>.asuqmprczirg{zoom: 25%;}</style><img src="/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240219233709078-1716293609027-8.png" class="asuqmprczirg" alt="image-20240219233709078">
 
 <p>softmax是机器学习和深度学习中常用的一个函数，特别是在处理多分类问题时。softmax 函数可以将一个含任意实数的 K 维向量 “压缩” 到另一个 K 维实向量中，其中向量中的每个元素的取值都在 (0, 1) 之间，并且所有元素的和为 1。这使得 softmax 函数的输出可以被解释为一个概率分布。</p>
 <p>softmax的代码定义为：</p>
@@ -420,23 +420,23 @@ MODEL <span class="token operator">=</span> <span class="token punctuation">&#12
 </ul>
 <p>我们独立处理每一行，因为在我们的模型中，每一行都表示具有独立预测概率的token输入。</p>
 <p>这是一个softmax的实例：</p>
-<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220115620842-1716293609027-7.png" class="" title="image-20240220115620842">
+<img src="/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240220115620842-1716293609027-7.png" class="" title="image-20240220115620842">
 
 <p>注意，每一行中最大的数值总会输出最大的softmax结果，但这个数值足够大时，这个softmax结果会接近100%。同时注意最大值的绝对大小并不重要，重要的是与其他值之间的相对大小关系，因为在第一步会减去最大值，即<code>[10,0,0]</code>会处理为<code>[0.-10.-10]</code>。</p>
 <p>一个对softmax直观的理解是：softmax的工作类似于一个平滑的argmax，argmax将最大值映射到1，其他值映射到0-1的区间，但是softmax相对于argmax更加平滑。</p>
 <h4 id="softmax-q-k-T-mask"><a href="#softmax-q-k-T-mask" class="headerlink" title="softmax(q @ k.T + mask)"></a>softmax(q @ k.T + mask)</h4><p><code>softmax(q @ k.T + mask)</code>的结果为:</p>
-<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220120530131-1716293647711-11.png" class="" title="image-20240220120530131">
+<img src="/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240220120530131-1716293647711-11.png" class="" title="image-20240220120530131">
 
 <p>其中,  每一行都表示在模型在预测某一位置时，需要对不同位置token付出的注意力的多少。上图中，我们在做第一个预测时只需要关注第一个token，而当我们在做第二个及以后的预测时，需要同时关注当前位置的token与上一个位置的token。</p>
 <p>关于<code>mask</code>和<code>softmax</code>的讨论到此为止，总的来说， <code>softmax(q @ k.T / np.sqrt(q.shape[-1]) + mask)</code> 的结果为：</p>
-<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220150037365-1716293647711-13.png" class="" title="image-20240220150037365">
+<img src="/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240220150037365-1716293647711-13.png" class="" title="image-20240220150037365">
 
 <h4 id="softmax-q-k-T-mask-v"><a href="#softmax-q-k-T-mask-v" class="headerlink" title="softmax(q @ k.T + mask) @ v"></a>softmax(q @ k.T + mask) @ v</h4><p><code>v</code>是什么？attention的最后一步是将上面的矩阵与<code>v</code>进行乘积（ <code>softmax(q @ k.T ) + mask) @ v</code>），在这个公式中，v表示什么？</p>
 <p>我们再回忆一下之前的embedding矩阵：</p>
-<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220151650146-1716293813476-18.png" class="" title="image-20240220151650146">
+<img src="/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240220151650146-1716293813476-18.png" class="" title="image-20240220151650146">
 
 <p>通过<code>c_attn</code>中的线性关系，我们得到下面这个<code>qkv</code>矩阵：</p>
-<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220151828038-1716293813476-17.png" class="" title="image-20240220151828038">
+<img src="/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240220151828038-1716293813476-17.png" class="" title="image-20240220151828038">
 
 <p>关注其中的<code>v</code>部分，我们看到这个矩阵只有第七列有元素，而且但token表示<code>a</code>时,  这个元素为<code>1</code>,  而当这个token表示<code>b</code>时,  这个元素为<code>-1</code>。这意味着，v是由之前的 one-hot  encoding（<code>a = [1, 0], b = [0, 1]</code>）转化而来。</p>
 <p>回想我们预测<code>aabaab</code>的任务，或者说下面这个任务：</p>
@@ -455,7 +455,7 @@ MODEL <span class="token operator">=</span> <span class="token punctuation">&#12
 <li>a, a → 0.5 * 1 + 0.5 * 1 &#x3D; 1 → b</li>
 </ul>
 <p>使用我们之前softmax矩阵的结果并且将其与分割下来的<code>v</code>矩阵进行乘积，对每一行进行计算后，对于<code>aabaa</code>这个输入，我们会得到一下这个结果：</p>
-<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220153450246-1716293871849-21.png" class="" title="image-20240220153450246">
+<img src="/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240220153450246-1716293871849-21.png" class="" title="image-20240220153450246">
 
 <p>最后一列的结果为：11001，即预测结果为bbaab，正确结果应为abaab。预测的第一个b错误，这个因为此处没有足够的数据支撑（前面只有一个a，下一个元素可以是a也可以是b），其余的预测都是正确的。</p>
 <h4 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h4><p>总的来说，<code>c_attn</code>主要做的工作是：</p>
@@ -510,20 +510,20 @@ MODEL <span class="token operator">=</span> <span class="token punctuation">&#12
 <li><code>embedding[row, 5]</code> (表示 <code>a</code>) 等同于<code>Lg + (-Lg) * prediction</code></li>
 <li><code>embedding[row, 6]</code> (表示 <code>b</code>) 等同于<code>0 + Lg * prediction</code></li>
 </ul>
-<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240220161019067-1716340090898-4.png" class="" title="image-20240220161019067">
+<img src="/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240220161019067-1716340090898-4.png" class="" title="image-20240220161019067">
 
 <p>在将attention的结果通过<code>c_proj</code>处理后，我们得到了这个矩阵，这个正是我们所需要的，被缩放1024倍、one-hot模式预测的矩阵。</p>
 <h3 id="Residual-connection"><a href="#Residual-connection" class="headerlink" title="Residual connection"></a>Residual connection</h3><p>残差链接可以帮助深度神经网络维持主要的信息流通过大量的层&#x2F;我们将原始输入添加到输出的过程成为残差连接, 也就是将<code>c_proj</code>的原始输入添加到了<code>c_proj</code>的输出中。</p>
 <p>体现在 <code>transformer_block</code>中，我们使用 <code>x = x + causal_self_attention(x, ...)</code> 而不是简单的 <code>x = causal_self_attention(x, ...)</code>。</p>
 <p>但是在我们的样例中，这并没有什么作用. 这就是为什么 <code>c_proj</code> 的输出被缩放了<code>1024</code>倍：为了排除不需要的残差链接的影响。</p>
 <p>经过残差连接后, transformer模块的最终输出为: </p>
-<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240224162758287-1716340090898-3-1716340879666-11.png" class="" title="image-20240224162758287">
+<img src="/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240224162758287-1716340090898-3-1716340879666-11.png" class="" title="image-20240224162758287">
 
 <h2 id="Projecting-back-to-vocabulary-space"><a href="#Projecting-back-to-vocabulary-space" class="headerlink" title="Projecting back to vocabulary space"></a>Projecting back to vocabulary space</h2><p>将transformer模块的输出的结果矩阵与转置后的token embedding weights (<code>wte</code>)相乘，来得到最终的结果。</p>
-<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240224163611184-1716340090898-6.png" class="" title="image-20240224163611184">
+<img src="/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240224163611184-1716340090898-6.png" class="" title="image-20240224163611184">
 
 <p>结果中的红色部分表示模型由于残差连接而略微倾向于重复一个token。但是相较于<code>1024</code>的输出，最终预测结果经过<code>softmax</code>后仍然100%倾向于某个词。</p>
-<img src="/2024/05/22/Make%20a%20transformer%20model%20by%20hand/image-20240224163947252-1716340090898-5.png" class="" title="image-20240224163947252">
+<img src="/2024/05/23/Make%20a%20transformer%20model%20by%20hand/image-20240224163947252-1716340090898-5.png" class="" title="image-20240224163947252">
 
 <p>也就是说，当给到<code>aabaa</code>序列时，模型会预测为：</p>
 <ul>
@@ -771,7 +771,7 @@ total<span class="token punctuation">,</span> correct <span class="token operato
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2024/05/22/2024%E5%B9%B45%E6%9C%88%E7%94%9F%E6%B4%BB%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" rel="prev" title="2024年5月生活学习记录">
+                <a href="/2024/05/23/2024%E5%B9%B45%E6%9C%88%E7%94%9F%E6%B4%BB%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" rel="prev" title="2024年5月生活学习记录">
                   <i class="fa fa-angle-left"></i> 2024年5月生活学习记录
                 </a>
             </div>
